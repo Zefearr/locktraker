@@ -1,0 +1,190 @@
+'use client'
+import { tierWeights } from "@/services/heroService";
+import Link from "next/link";
+import Image from "next/image";
+import { CleanHero } from '@/services/heroService';
+import { useState, useMemo } from "react";
+import { ArrowIcon } from "@/components/ui/icons";
+import { Tier } from "@/services/heroService";
+
+const getTierStyle = (tier: Tier) => {
+  switch (tier) {
+    case 'S+': return 'text-green-500 font-black drop-shadow-[0_0_10px_rgba(239,68,68,0.7)]';
+    case 'S': return 'text-green-500 font-black';
+    case 'A': return 'text-orange-400 font-bold';
+    case 'B': return 'text-amber-200';
+    case 'C': return 'text-zinc-400';
+    case 'D': return 'text-zinc-600';
+    default: return 'text-zinc-500';
+  }
+};
+
+export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
+  const [sortKey, setSortKey] = useState<keyof CleanHero>('winrate');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [selectedClass, setSelectedClass] = useState('All');
+
+
+  const sortedHeroes = useMemo(() => {
+    const filtered = heroes.filter(hero =>
+      selectedClass === 'All' ? true : hero.class === selectedClass
+    );
+    return [...filtered].sort((a, b) => {
+      let aValue = a[sortKey] ?? '';
+      let bValue = b[sortKey] ?? '';
+
+      if (sortKey === 'tier') {
+        aValue = tierWeights[a.tier] ?? 0;
+        bValue = tierWeights[b.tier] ?? 0;
+      }
+      if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }, [heroes, sortKey, sortOrder, selectedClass]);
+
+  const getSortStyles = (key: keyof CleanHero) => {
+    const base = `w-full h-full flex cursor-pointer `;
+    const activeStyle = `w-full h-full flex cursor-pointer group  bg-zinc-900  rounded-lg`;
+    const inactiveStyle = `hover:bg-deadlock-dark  w-full h-full flex cursor-pointer group`;
+    return sortKey === key ? `${base} ${activeStyle}` : `${base} ${inactiveStyle}`;
+  };
+
+  const getIconStyles = (key: keyof CleanHero) => {
+    const isSelected = sortKey === key;
+    return `ml-2 transition-transform duration-300 ${isSelected && sortOrder === 'desc' ? 'rotate-180' : 'rotate-0'
+      } ${isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'}`;
+  };
+
+
+  const handleSort = (key: keyof CleanHero) => {
+
+    if (sortKey === key) {
+      // Если нажали на то же поле — меняем направление
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      // Если нажали на новое поле — ставим его и сбрасываем на desc (популярный выбор)
+      setSortKey(key);
+      setSortOrder('desc');
+    }
+  };
+
+
+
+  return (
+    <div className="p-5">
+      <h1 className="text-[2rem] px-4" >Tier List</h1>
+      <table className="size-full w-full border-separate border-spacing-y-3 table-fixed">
+        <thead className="">
+          <tr className=" text-left text-xl">
+            <th scope="col" className="" >
+              <button
+                type="button"
+                onClick={() => handleSort('name')}
+                className={`transition-all duration-200 ${getSortStyles('name')}`}>
+                <span className="p-4 px-4">Hero</span>
+              </button>
+            </th>
+            <th scope="col">
+              {/* <span className="">Class</span> */}
+              <form className="" onSubmit={(e) => e.preventDefault()}>
+                {/* <label htmlFor="class-filter" className="sr-only">Class</label>  */}
+                <div className="w-full relative flex">
+                  <select id="class-filter"
+                    value={selectedClass}
+                    className="cursor-pointer appearance-none p-3 px-5 rounded-md border-zinc-800  focus:outline-none focus:bg-deadlock-dark"
+                    onChange={(e) => setSelectedClass(e.target.value)}>
+                    <option value="All">All Classes</option>
+                    <option value="assassin">Assasin</option>
+                    <option value="brawler">Brawler</option>
+                    <option value="marksman">Marksman</option>
+                    <option value="mystic">Mystic</option>
+                  </select>
+                  <div className="pointer-events-none items-center text-zinc-500">
+                    <ArrowIcon
+                      className={`w-4 h-4 mt-4 transition-transform duration-300 
+                        ${sortOrder === 'desc' && sortKey === 'class' ? 'rotate-180' : 'rotate-0'}`
+                      }
+                    />
+                  </div>
+
+                </div>
+              </form>
+            </th>
+            <th scope="col">
+              <button
+                type="button"
+                onClick={() => handleSort('winrate')}
+                className={`transition-all duration-200 ${getSortStyles('winrate')}`}>
+                <span className="py-4 px-4">WinRate</span>
+                <ArrowIcon
+                  className={`w-4 h-4 mt-4 transition-transform duration-300 
+                  ${sortOrder === 'desc' && sortKey === 'winrate' ? 'rotate-180' : 'rotate-0'}`}
+                />
+              </button>
+            </th>
+            <th scope="col">
+
+              <button
+                type="button"
+                onClick={() => handleSort('tier')}
+                className={`transition-all duration-200 ${getSortStyles('tier')}`}>
+                <span className="py-4 px-4"> Tier</span>
+                <ArrowIcon
+                  className={`w-4 h-4 mt-4 transition-transform duration-300 
+                  ${sortOrder === 'desc' && sortKey === 'tier' ? 'rotate-180' : 'rotate-0'}`
+                  }
+                />
+
+              </button>
+            </th>
+            <th scope="col">
+              <button
+                type="button"
+                onClick={() => handleSort('kda')}
+                className={`transition-all duration-200 ${getSortStyles('kda')}`}>
+                <span className="p-4">KDAA</span>
+                <ArrowIcon
+                  className={`w-4 h-4 mt-4 transition-transform duration-300 
+                  ${sortOrder === 'desc' && sortKey === 'kda' ? 'rotate-180' : 'rotate-0'}`
+                  }
+                />
+              </button>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody className="text-lg">
+          {sortedHeroes?.map((hero: any) => (
+            <tr key={hero.id} className="group odd:none relative">
+              <th className="rouned-xs font-thin">
+                <Link href={`/heroes/${hero.name}`} className="flex absolute inset-0 items-center hover:opacity-50  text-amber-200
+                  before:content-[''] before:absolute before:-left-10 before:translate-y-[50%] before:top-0 before:w-2 before:h-7 before:opacity-0 
+                 before:bg-amber-500 before:scale-x-100 before:transition-transform before:duration-300
+                  hover:before:scale-x-100 hover:before:translate-x-5 hover:before:opacity-100" >
+                  <img src={hero.image} className="w-10 h-10" alt={hero.name} />
+                  <span className="px-4">{hero.name}</span>
+                </Link>
+
+              </th>
+              <td className="p-4">
+                {hero.class}
+              </td>
+              <td className="p-4">
+                {hero.winrate}%
+              </td>
+              <td className="p-4">
+                <span className={getTierStyle(hero.tier)}>{hero.tier}</span>
+              </td>
+              <td className="p-4">
+                <span>{hero.kda}</span>
+              </td>
+
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+    </div >
+  );
+}
