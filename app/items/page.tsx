@@ -23,7 +23,6 @@ export default async function ItemsPage({ searchParams }: PageProps) {
 
   const params = await searchParams;
   const activeTab = params.type?.toLowerCase() || 'weapon';
-  console.log(params)
 
   const data = await fetchAllItemsNested();
 

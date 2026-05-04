@@ -208,7 +208,7 @@ export async function getSingleHero(name: string): Promise<SingleHero | null> {
         }
       })
 
-    console.log(abilityDataById);
+
 
     return {
       id: heroesData?.id,

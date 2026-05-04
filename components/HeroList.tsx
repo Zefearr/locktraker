@@ -53,7 +53,7 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
   const getSortStyles = (key: keyof CleanHero) => {
     const base = `w-full h-full flex cursor-pointer `;
     const activeStyle = `w-full h-full flex cursor-pointer group  bg-zinc-900  rounded-lg`;
-    const inactiveStyle = `hover:bg-deadlock-dark  w-full h-full flex cursor-pointer group`;
+    const inactiveStyle = `hover:bg-zinc-900 rounded-lg w-full h-full flex cursor-pointer group`;
     return sortKey === key ? `${base} ${activeStyle}` : `${base} ${inactiveStyle}`;
   };
 
@@ -89,7 +89,7 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
                 type="button"
                 onClick={() => handleSort('name')}
                 className={`transition-all duration-200 ${getSortStyles('name')}`}>
-                <span className="px-4 rounded-2xl py-2">Hero</span>
+                <span className="px-4 rounded-2xl flex items-center">Hero</span>
               </button>
             </th>
             <th scope="col">
