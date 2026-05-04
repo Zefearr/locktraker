@@ -10,7 +10,7 @@ export default async function HeroesPage() {
   }
 
   return (
-    <main className="container mx-auto">
+    <main className="container mx-auto max-w-[1280px]">
       <HeroList heroes={pulledHeroes} />
 
     </main>

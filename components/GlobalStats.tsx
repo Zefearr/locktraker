@@ -27,7 +27,8 @@ export default function GlobalStatsList({ initialStats }: GlobalStatsListProps) 
   if (stats.length === 0) return <p>Данные отсутствуют</p>;
 
   return (
-    <div>
+    <div className="">
+
       {stats.map((s, i) => (
         <div key={i} className="border-b  border-[#0F0F16] min-h-10 relative m-auto  py-4 flex  after:content:'' after:absolute after:w-full after:h-0.5 after:translate-y-1 after:blur-[0.5px] after:opacity-40 after:bottom-0 after:bg-[#323243]">
 

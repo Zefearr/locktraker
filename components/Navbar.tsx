@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import logo from '../img/weather.svg';
+import logo from '../img/mainlogo.svg';
 import { usePathname } from "next/navigation";
 import Button from "./ui/Button";
 
@@ -16,15 +16,15 @@ const Navbar = () => {
   };
 
   return (
-    <div className="py-8 px-7 text-red flex justify-between">
+    <div className="py-4 my-10 relative flex items-center justify-around">
       <Link href="/">
-        <Image loading="eager" src={logo} alt="deadlock tracker" width={120} />
+        <Image loading="eager" src={logo} alt="deadlock tracker" width={100} />
       </Link>
       <ul className="flex flex-row items-center gap-5 font-aldrich text-2xl">
         <li ><Link className={getLinkStyle('/heroes')} href="/heroes">TierList</Link></li>
         <li ><Link className={getLinkStyle('/players')} href="/players">Players</Link></li>
-        <li ><Link className={getLinkStyle('/items')} href="/items">Items</Link></li>
-        <li ><Link className={getLinkStyle('/about')} href="/about">Builds</Link></li>
+        <li ><Link className={getLinkStyle('/items')} href="/items " prefetch={false}>Items</Link></li>
+        <li ><Link className={getLinkStyle('/about')} href="/builds">Builds</Link></li>
       </ul>
 
     </div>

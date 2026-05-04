@@ -1,14 +1,18 @@
 
+
 export interface HeroAbility {
   id: number;
   name: string;
   image: string;
   description: string;
-  descriptionUpgradeOne: string;
-  descriptionUpgradeTwo: string;
-  descriptionUpgradeThree: string;
   quip: string;
+  upgradeOneDescription: string;
+  upgradeTwoDescription: string;
+  upgradeThreeDescription: string;
   upgrades: AbilityUpgrade[];
+  abilityCharges: string;
+  abilityRange: string;
+  cooldown: number;
 
 }
 
@@ -55,7 +59,7 @@ interface DeadlockApiHero {
   hero_type: string;
   images: {
     minimap_image_webp: string;
-    [key: string]: any; // на случай других картинок
+    [key: string]: any;
   };
 }
 
@@ -96,7 +100,7 @@ function calculateKda(k: number, d: number, a: number): string {
 }
 
 function calculateTier(winrate: number): Tier {
-  if (winrate >= 56) return 'S+';
+  if (winrate >= 55) return 'S+';
   if (winrate >= 54) return 'S';
   if (winrate >= 51) return 'A';
   if (winrate >= 48) return 'B';
@@ -161,6 +165,11 @@ export async function fetchHeroes(): Promise<CleanHero[] | null> {
   }
 }
 
+export const formatVal = (val: any): string => {
+  const num = parseFloat(val);
+  return (!isNaN(num) && num > 0) ? String(val) : '';
+};
+
 
 
 export async function getSingleHero(name: string): Promise<SingleHero | null> {
@@ -175,17 +184,22 @@ export async function getSingleHero(name: string): Promise<SingleHero | null> {
     const abilityDataById = await abilityRawData.json();
 
 
-
     const cleanAbilities: HeroAbility[] = abilityDataById
       .map((ability: any, index: number) => {
         const realId = ability.id?.value || ability.id || index;
         return {
           id: realId,
-          description: ability.description.desc,
+          description: ability.description.desc?.replace(/<[^>]*>/g, '') ?? '',
+          upgradeOneDescription: ability.description?.t1_desc?.replace(/<[^>]*>/g, '') ?? '',
+          upgradeTwoDescription: ability.description?.t2_desc?.replace(/<[^>]*>/g, '') ?? '',
+          upgradeThreeDescription: ability.description?.t3_desc?.replace(/<[^>]*>/g, '') ?? '',
+          cooldown: ability.properties.AbilityCooldown.value || '',
+          abilityCharges: formatVal(ability.properties.AbilityCharges?.value),
+          // abilityRange: ability.properties.AbilityCastRange.value > 0 ? ability.properties.AbilityCastRange.value : '',
+          // abilityCharges: ability.properties.AbilityCharges?.value || '',
+          abilityRange: formatVal(ability.properties.Radius?.value),
+          abilityDamage: ability.properties.Damage?.value || '',
           quip: ability.description.quip || '',
-          descriptionUpgradeOne: ability.description.t1_desc,
-          descriptionUpgradeTwo: ability.description.t2_desc,
-          descriptionUpgradeThree: ability.description.t3_desc,
           name: ability.name || `Ability ${index + 1}`,
           image: ability.image,
           upgrades: (ability.upgrades || []).map((upg: any) => ({
@@ -193,9 +207,8 @@ export async function getSingleHero(name: string): Promise<SingleHero | null> {
           }))
         }
       })
-    // console.log(abilityDataById);
 
-
+    console.log(abilityDataById);
 
     return {
       id: heroesData?.id,

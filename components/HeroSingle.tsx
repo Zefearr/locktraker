@@ -1,12 +1,48 @@
 import Image from "next/image";
 import { SingleHero } from "@/services/heroService";
-import { Tier } from "@/services/heroService";
 import HeroAbilitiesCard from "./HeroAbilities";
 
 
+export const highlightText = (text: string, wordsToHighlight: string[]) => {
+  if (!wordsToHighlight || wordsToHighlight.length === 0) return text;
 
+
+  const pattern = wordsToHighlight
+    .map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    .join('|');
+
+  const parts = text.split(new RegExp(`(${pattern})`, 'gi'));
+
+
+  const highlightSet = new Set(wordsToHighlight.map(w => w.toLowerCase()));
+
+  return (
+    <span>
+      {parts.map((part, i) => {
+        const lowerPart = part.toLowerCase();
+        if (lowerPart.includes('spirit damage')) {
+          return <b key={i} className="text-purple-400">{part}</b>;
+        }
+        if (lowerPart.includes('barrier')) {
+          return <b key={i} className="text-blue-400">{part}</b>;
+        }
+        if (lowerPart.includes('heals')) {
+          return <b key={i} className="text-emerald-400">{part}</b>;
+        }
+        if (lowerPart.includes('bullet damage')) {
+          return <b key={i} className="text-orange-300">{part}</b>;
+        }
+        if (lowerPart.includes('weapon damage')) {
+          return <b key={i} className="text-orange-400">{part}</b>;
+        }
+        return part;
+      })}
+    </span>
+  );
+};
 
 export default function HeroSingle({ hero }: { hero: SingleHero }) {
+
 
 
   const getTierStyle = (tier: string | undefined) => {
@@ -21,31 +57,31 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
     }
   };
 
-  return (
-    <div className="p-4 max-w-800 rounded-2xl ">
 
-      <div className="flex flex-row overflow-hidden">
+  return (
+    <div className="bg-[linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),url('/tweed.png')] p-6 pb-4 pt-6  border border-gray-800 shadow-emerald-800">
+
+      <div className="flex flex-row gap-4">
         <div className="flex flex-1 flex-col w-40  overflow-hidden">
-          <div className="relative h-70 overflow-hidden">
+          <div className="relative h-80 overflow-hidden">
             <Image
               loading="eager"
               src={hero?.image || ""}
               alt={hero?.name || ""}
               width={380}
               height={400}
-              className="w-full absolute left-0 top-0 -z-10"
+              className="w-full"
             />
-            <h1 className="text-2xl font-black text-amber-400 absolute bottom-0 px-4 py-2 bg-deadlock-dark"> {hero?.name}</h1>
+            {/* <span className="font-bold">{hero?.id}</span> */}
 
           </div>
           <div className=" py-4">
+            <h1 className=" text-[1.8rem] font-black text-amber-400  px-4 pt-5"> {hero?.name}</h1>
 
             <span className={getTierStyle(hero?.tier || 'A')}>{hero?.tier}</span>
 
-
-
             {hero.tags.map((tag, index) => {
-              // Чередуем наклон: первый влево, второй вправо, третий ровно
+              // rotation of tags based of index 1 2 3
               const rotations = ['-rotate-4', '-rotate-2', 'rotate-2'];
               const rotation = rotations[index % rotations.length];
 
@@ -70,82 +106,34 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
 
           </div>
 
-
         </div>
-        <div className="flex-6 text-[1.2rem] text-gray-400 p-5 py-0">
+        <div className="flex-4 text-[1.2rem] text-gray-200 p-5 py-0 ">
 
           {hero?.playstyle &&
             <div>
-              <p className="font-thin text-[1.1rem]  font-">{hero?.playstyle}</p>
+              <p className="font-thin text-[1.2rem] italic text-gray-400 uppercase ">" {hero?.playstyle} "</p>
               <br />
             </div>}
-          <p>{hero?.lore}</p>
+          {hero?.lore && (
+
+            <div className="relative">
+              <p className="text-black relative text-[1.2rem] z-10 p-4 font-semibold"> {hero.lore}</p>
+              <span className="bg-[url('/lined_paper.png')] border absolute inset-0 w-full z-1 h-full opacity-25
+            
+                mask-[url('/paper_masked6.png')]
+                [mask-size:100%_100%]
+                [mask-repeat:no-repeat]
+                ">
+
+              </span>
+            </div>
+
+          )}
 
         </div>
 
       </div>
 
-
-      {/* {hero.abilities.map((ability: any, index: number) => {
-          return (
-
-            <div className="flex flex-col border-2 border-blue-950 gap-6 bg-slate-900 rounded-2xl w-80 overflow-hidden" key={index}>
-            
-
-              <div className="flex bg-blue-900 p-2">
-                {ability.image && (
-                  <img
-                    src={ability.image}
-                    alt={ability.name}
-                    className="w-16 h-16 rounded-md object-cover border"
-                  />
-                )}
-
-                <div className="m-auto font-bold uppercase tracking-wider"> {ability.name} </div>
-              </div>
-
-              <div className="flex flex-col flex-1 ">
-
-                <div className="flex flex-col-reverse h-full justify-around gap-5 p-4 text-[0.7rem]">
-
-                  {(ability.upgrades || []).map((upgrade: any, uIdx: number) => (
-                    <div key={uIdx} className="flex-1 bg-blue-950 p-2 rounded relative border border-blue-900/50">
-                   
-                      <div className="absolute -top-2 left-2 bg-amber-600 text-[10px] px-1 rounded">
-                        T{uIdx + 1}
-                      </div>
-
-                      <div className="flex flex-col gap-2 space-y-reverse mt-1">
-                    
-                        {upgrade.property_upgrades?.map((prop: any, pIdx: number) => (
-                          <div key={pIdx} className="flex flex-col justify-between border-b border-blue-900 pb-1 last:border-0">
-                            <span className="opacity-70">{prop.name}:</span>
-                            <span className="text-green-400 font-bold">
-                              {typeof prop.bonus === 'number' && prop.bonus > 0 ? `+${prop.bonus}` : prop.bonus}
-                            </span>
-                          </div>
-                        ))}
-
-                      
-                        {upgrade.description && (
-                          <p className="mt-1 italic opacity-80 border-t border-blue-900 pt-1">
-                            {upgrade.description.replace(/<[^>]*>/g, '')}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="p-4 bg-blue-950 rounded shadow-inner">
-                  <p className="">
-                    {ability.description?.replace(/<[^>]*>/g, '')}
-                  </p>
-                </div>
-              </div>
-            </div>
-          )
-        })} */}
       <HeroAbilitiesCard abilities={hero.abilities} />
 
 

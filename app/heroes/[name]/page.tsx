@@ -11,9 +11,10 @@ interface PageProps {
 }
 
 export default async function HeroDetailPage({ params }: PageProps) {
+
   const { name } = await params;
-  // const hero = await getSingleHero(name);
   const decodedName = decodeURIComponent(name);
+
   const [hero, allHeroesData] = await Promise.all([
     getSingleHero(decodedName),
     fetchHeroes()
@@ -25,9 +26,8 @@ export default async function HeroDetailPage({ params }: PageProps) {
     ...hero,
     tier: heroFromList?.tier
   }
-  console.log(enrichedHero);
   return (
-    <div>
+    <div className="max-w-[1280px] m-auto">
       <HeroSingle hero={enrichedHero} />
     </div>
   )

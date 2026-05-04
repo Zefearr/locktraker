@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
-import { Roboto, Funnel_Sans, Saira_Stencil_One } from "next/font/google";
+import { Roboto, Saira_Stencil_One, Figtree } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
-const funnelSans = Funnel_Sans({
+
+
+const figtree = Figtree({
   weight: ['300', '400', '500', '600', '700', '800'],
   subsets: ['latin'],
-  variable: '--font-funnel'
+  variable: '--font-figtree'
 });
 
 const roboto = Roboto({
@@ -14,15 +16,15 @@ const roboto = Roboto({
   subsets: ['latin'],
   variable: '--font-roboto'
 })
-const saira = Saira_Stencil_One({
+export const saira = Saira_Stencil_One({
   weight: ['400'],
   subsets: ['latin'],
-  variable: '--font-roboto'
+  variable: '--font-saira'
 })
 
 export const metadata: Metadata = {
   title: "Deadlock tracker",
-  description: "Find player information",
+  description: "Tier list, builds, items, guides and lore"
 };
 
 export default function RootLayout({
@@ -36,8 +38,8 @@ export default function RootLayout({
       className="h-full
       antialiased"
     >
-      <body className={`${saira.className} bg-deadlock-dark`}>
-        <div className="w-full max-w-8/10 min-h-400 m-auto rounded-3xl ">
+      <body className={`${figtree.className} bg-[url('/bodybg.png')] bg-contain bg-scroll  bg-no-repeat`}>
+        <div className="w-full max-w-8/10 min-h-400 m-auto overflow-clip">
 
           <Navbar />
           {children}

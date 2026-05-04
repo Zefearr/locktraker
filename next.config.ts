@@ -5,10 +5,15 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'assets.deadlock-api.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'assets-bucket.deadlock-api.com',
         port: '',
         pathname: '/**'
       }
+
     ]
   },
   devIndicators: false

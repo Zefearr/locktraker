@@ -6,6 +6,13 @@ import { CleanHero } from '@/services/heroService';
 import { useState, useMemo } from "react";
 import { ArrowIcon } from "@/components/ui/icons";
 import { Tier } from "@/services/heroService";
+import { Funnel_Sans } from "next/font/google";
+
+export const saira = Funnel_Sans({
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-saira'
+})
 
 const getTierStyle = (tier: Tier) => {
   switch (tier) {
@@ -72,9 +79,9 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
 
 
   return (
-    <div className="p-5">
-      <h1 className="text-[2rem] px-4" >Tier List</h1>
-      <table className="size-full w-full border-separate border-spacing-y-3 table-fixed">
+    <div className="bg-[linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),url('/tweed.png')] px-6 py-6 shadow-lg shadow-gray-900">
+      <h1 className={`${saira.className} text-[2.2rem] pl-8 py-4 font-bold`} >Tier List</h1>
+      <table className="size-full w-full border-separate border-spacing-y-3 table-fixed pl-6">
         <thead className="">
           <tr className=" text-left text-xl">
             <th scope="col" className="" >
@@ -82,7 +89,7 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
                 type="button"
                 onClick={() => handleSort('name')}
                 className={`transition-all duration-200 ${getSortStyles('name')}`}>
-                <span className="p-4 px-4">Hero</span>
+                <span className="px-4 rounded-2xl py-2">Hero</span>
               </button>
             </th>
             <th scope="col">
