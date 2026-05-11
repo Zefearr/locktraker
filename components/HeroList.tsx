@@ -77,7 +77,6 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
   };
 
 
-
   return (
     <div className="bg-[linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),url('/tweed.png')] px-6 py-6 shadow-lg shadow-gray-900">
       <h1 className={`${saira.className} text-[2.2rem] pl-8 py-4 font-bold`} >Tier List</h1>
@@ -89,7 +88,7 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
                 type="button"
                 onClick={() => handleSort('name')}
                 className={`transition-all duration-200 ${getSortStyles('name')}`}>
-                <span className="px-4 rounded-2xl flex items-center">Hero</span>
+                <span className="px-4 py-4 rounded-2xl flex items-center">Hero</span>
               </button>
             </th>
             <th scope="col">

@@ -16,13 +16,14 @@ const Navbar = () => {
   };
 
   return (
-    <div className="py-4 my-10 relative flex items-center justify-around">
-      <Link href="/">
-        <Image loading="eager" src={logo} alt="deadlock tracker" width={100} />
-      </Link>
+    <div className="py-4 my-10 relative flex items-center justify-around border-b">
+
       <ul className="flex flex-row items-center gap-5 font-aldrich text-2xl">
         <li ><Link className={getLinkStyle('/heroes')} href="/heroes">TierList</Link></li>
         <li ><Link className={getLinkStyle('/players')} href="/players">Players</Link></li>
+        <Link href="/" className="px-10">
+          <Image loading="eager" src={logo} alt="deadlock tracker" width={100} />
+        </Link>
         <li ><Link className={getLinkStyle('/items')} href="/items " prefetch={false}>Items</Link></li>
         <li ><Link className={getLinkStyle('/about')} href="/builds">Builds</Link></li>
       </ul>

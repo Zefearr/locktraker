@@ -117,8 +117,8 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
           {hero?.lore && (
 
             <div className="relative">
-              <p className="text-black relative text-[1.2rem] z-10 p-4 font-semibold"> {hero.lore}</p>
-              <span className="bg-[url('/lined_paper.png')] border absolute inset-0 w-full z-1 h-full opacity-25
+              <p className="text-black relative text-[1.2rem] z-10 p-4 font-thin"> {hero.lore}</p>
+              <span className="bg-[url('/lined_paper.png')] border absolute inset-0 w-full z-1 h-full opacity-50
             
                 mask-[url('/paper_masked6.png')]
                 [mask-size:100%_100%]

@@ -39,7 +39,7 @@ export default function RootLayout({
       antialiased"
     >
       <body className={`${figtree.className} bg-[url('/bodybg.png')] bg-contain bg-scroll  bg-no-repeat`}>
-        <div className="w-full max-w-8/10 min-h-400 m-auto overflow-clip">
+        <div className="w-full max-w-7xl min-h-400 m-auto overflow-clip">
 
           <Navbar />
           {children}
