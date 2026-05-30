@@ -1,34 +1,48 @@
 import { getSingleHero } from "@/services/heroService";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import HeroSingle from '@/components/HeroSingle';
+import BuildsList from '@/components/HeroBuilds';
+import { getBuildsById } from "@/services/buildService";
 import { fetchHeroes } from "@/services/heroService";
-
+import { fetchAllItemsNested, flattenItems } from "@/services/itemService";
 
 
 interface PageProps {
-  params: Promise<{ name: string }>;
+  params: Promise<{ name: string, id: string }>;
+  searchParams: Promise<{ limit?: string; sort?: string; order?: string }>;
 }
 
-export default async function HeroDetailPage({ params }: PageProps) {
+export default async function HeroDetailPage({ params, searchParams }: PageProps) {
 
   const { name } = await params;
   const decodedName = decodeURIComponent(name);
 
-  const [hero, allHeroesData] = await Promise.all([
-    getSingleHero(decodedName),
-    fetchHeroes()
-  ])
+  const resolvedSearchParams = await searchParams;
+  const currentOrder = resolvedSearchParams.order || 'desc';
+  const currentSort = resolvedSearchParams.sort || 'recent';
+  const currentLimit = Number(resolvedSearchParams.limit) || 3;
 
+  const hero = await getSingleHero(decodedName);
   if (!hero) notFound();
+
+  const [allHeroesData, buildsData, nestedItems] = await Promise.all([
+    fetchHeroes(),
+    getBuildsById(hero.id, currentLimit, currentSort, currentOrder),
+    fetchAllItemsNested()
+  ])
+  if (!nestedItems) return null;
+
   const heroFromList = allHeroesData?.find(h => h.name.toLowerCase() === decodedName.toLowerCase());
   const enrichedHero = {
     ...hero,
     tier: heroFromList?.tier
   }
+  const itemsMap = flattenItems(nestedItems);
+  // console.log(buildsData)
   return (
     <div className="max-w-[1280px] m-auto">
       <HeroSingle hero={enrichedHero} />
+      <BuildsList builds={buildsData || []} itemsMap={itemsMap} currentLimit={currentLimit} currentSort={currentSort} currentOrder={currentOrder} />
     </div>
   )
 }

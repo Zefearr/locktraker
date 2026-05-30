@@ -13,15 +13,12 @@ interface GlobalStatsListProps {
   initialStats: globStats[] | null;
 }
 
-// 2. Деструктурируем пропсы в аргументах функции
 export default function GlobalStatsList({ initialStats }: GlobalStatsListProps) {
 
   const calcColor = (stat: number) => {
     return stat > 50 ? 'text-green-500 text-sm' : 'text-red-500 text-sm';
   }
   const stats = initialStats
-
-
 
   if (stats === null) return <p>Ошибка загрузки статистики</p>;
   if (stats.length === 0) return <p>Данные отсутствуют</p>;
@@ -32,15 +29,8 @@ export default function GlobalStatsList({ initialStats }: GlobalStatsListProps) 
       {stats.map((s, i) => (
         <div key={i} className="border-b  border-[#0F0F16] min-h-10 relative m-auto  py-4 flex  after:content:'' after:absolute after:w-full after:h-0.5 after:translate-y-1 after:blur-[0.5px] after:opacity-40 after:bottom-0 after:bg-[#323243]">
 
-          {/* <Image src={city} alt="bg" className="fill absolute opacity-50 blur-[10px] " /> */}
           <div className="flex m-auto items-end justify-around gap-8">
             <div>
-              {/* <span>{s.totalMatches}  </span>
-              <br />
-              <span>{s.archMotherWins}</span>
-              <br />
-
-              <span>{s.hiddenKingWins}</span> */}
 
 
               <div className="w-12">

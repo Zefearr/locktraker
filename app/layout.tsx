@@ -38,8 +38,8 @@ export default function RootLayout({
       className="h-full
       antialiased"
     >
-      <body className={`${figtree.className} bg-[url('/bodybg.png')] bg-contain bg-scroll  bg-no-repeat`}>
-        <div className="w-full max-w-7xl min-h-400 m-auto overflow-clip">
+      <body className={`${figtree.className} bg-[url('/bodybg.png')] bg-contain bg-no-repeat`}>
+        <div className="w-full max-w-7xl min-h-400 m-auto overflow-visible">
 
           <Navbar />
           {children}

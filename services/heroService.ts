@@ -16,7 +16,6 @@ export interface HeroAbility {
 
 }
 
-
 export interface CleanHero {
   id: number;
   name: string;
@@ -75,6 +74,7 @@ export interface SingleHero {
   abilities: any[];
   tier?: string;
 }
+
 
 export interface PropertyUpgrade {
   name: string;
@@ -175,10 +175,10 @@ export const formatVal = (val: any): string => {
 export async function getSingleHero(name: string): Promise<SingleHero | null> {
   try {
     const url = `https://assets.deadlock-api.com/v2/heroes/by-name/${name}?language=english&client_version=6430`;
-    const askForHeroes = await fetch(url);
-    if (!askForHeroes.ok) return null;
+    const fetchHeroes = await fetch(url);
+    if (!fetchHeroes.ok) return null;
 
-    const heroesData = await askForHeroes.json();
+    const heroesData = await fetchHeroes.json();
 
     const abilityRawData = await fetch(`https://assets.deadlock-api.com/v2/items/by-hero-id/${heroesData?.id}`);
     const abilityDataById = await abilityRawData.json();
@@ -207,8 +207,6 @@ export async function getSingleHero(name: string): Promise<SingleHero | null> {
           }))
         }
       })
-
-
 
     return {
       id: heroesData?.id,

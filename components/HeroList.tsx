@@ -91,10 +91,8 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
                 <span className="px-4 py-4 rounded-2xl flex items-center">Hero</span>
               </button>
             </th>
-            <th scope="col">
-              {/* <span className="">Class</span> */}
+            <th className="hidden md:block" scope="col">
               <form className="" onSubmit={(e) => e.preventDefault()}>
-                {/* <label htmlFor="class-filter" className="sr-only">Class</label>  */}
                 <div className="w-full relative flex">
                   <select id="class-filter"
                     value={selectedClass}

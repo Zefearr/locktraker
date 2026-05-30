@@ -59,13 +59,16 @@ function processNestedData(rawData: any[]): Record<string, itemDesc[]> {
           property_upgrades: upg.property_upgrades || []
         }))
       });
-
     }
     return acc;
   }, {});
 }
+
+
 export async function fetchAllItemsNested(): Promise<NestedGroupedItems | null> {
+
   const slots = ['weapon', 'vitality', 'spirit'];
+
   try {
     const responses = await Promise.all(
       slots.map(slot => fetch(`https://assets.deadlock-api.com/v2/items/by-slot-type/${slot}`))
@@ -81,6 +84,18 @@ export async function fetchAllItemsNested(): Promise<NestedGroupedItems | null> 
       });
       return acc;
     }, {} as NestedGroupedItems);
-  } catch (e) { return null; }
+  } catch { return null; }
 }
+export function flattenItems(nestedItems: NestedGroupedItems) {
+  const flatMap: Record<number, any> = {};
 
+  Object.values(nestedItems).forEach(slotType => {
+    Object.values(slotType).forEach((tierArray: any) => {
+      tierArray.forEach((item: any) => {
+        flatMap[item.id] = item;
+      });
+    });
+  });
+
+  return flatMap;
+}

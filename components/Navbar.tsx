@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from '../img/mainlogo.svg';
 import { usePathname } from "next/navigation";
-import Button from "./ui/Button";
+
 
 const Navbar = () => {
 
@@ -16,9 +16,9 @@ const Navbar = () => {
   };
 
   return (
-    <div className="py-4 my-10 relative flex items-center justify-around border-b">
+    <div className="py-12 relative flex items-center justify-around border-b overflow-hidden">
 
-      <ul className="flex flex-row items-center gap-5 font-aldrich text-2xl">
+      <ul className="flex flex-col md:flex-row items-center gap-5 text-2xl">
         <li ><Link className={getLinkStyle('/heroes')} href="/heroes">TierList</Link></li>
         <li ><Link className={getLinkStyle('/players')} href="/players">Players</Link></li>
         <Link href="/" className="px-10">

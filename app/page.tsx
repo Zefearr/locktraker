@@ -13,11 +13,9 @@ export default async function Home() {
 
     <div className="max-w-[1280px] m-auto">
       <main className="container mx-auto">
-        <GlobalStatsList initialStats={statsData} />
+        {/* <GlobalStatsList initialStats={statsData} /> */}
         <HeroList heroes={pulledHeroes} />
-
       </main>
-
     </div>
   );
 }

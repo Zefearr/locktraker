@@ -38,6 +38,7 @@ function AbilityCard({ ability }: { ability: any }) {
         </span> */}
       </button>
 
+
       <div className="w-120 flex flex-col absolute scale-0 h-auto opacity-0 origin-top-left group-hover:opacity-100 
               transition-opacity group-hover:scale-100 z-10 bg-[linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),url('/tweed.png')] border border-gray-800">
         {/* <span className="absolute inset-0 w-full h-full bg-[url('/tweed.png')] z-0 opacity-100"></span> */}

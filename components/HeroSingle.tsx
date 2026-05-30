@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { SingleHero } from "@/services/heroService";
+
 import HeroAbilitiesCard from "./HeroAbilities";
+
+import { getTierStyle } from "./helpers";
 
 
 export const highlightText = (text: string, wordsToHighlight: string[]) => {
@@ -43,21 +46,6 @@ export const highlightText = (text: string, wordsToHighlight: string[]) => {
 
 export default function HeroSingle({ hero }: { hero: SingleHero }) {
 
-
-
-  const getTierStyle = (tier: string | undefined) => {
-    switch (tier) {
-      case 'S+': return 'py-2  inline-block mx-2 my-2 text-center w-15 rounded-[10] text-[2.6rem]    text-green-500 font-black drop-shadow-[0_0_10px_rgba(239,68,68,0.7)]';
-      case 'S': return 'py-2 inline-block mx-2 my-2 text-center w-15 rounded-[10] text-[2.6rem]     text-green-500 font-black';
-      case 'A': return 'py-2 inline-block mx-2 my-2 text-center w-15 rounded-[10] text-[2.6rem]    text-orange-400 font-bold';
-      case 'B': return 'py-2 inline-block mx-2 my-2 text-center w-15 rounded-[10] text-[2.6rem]     text-amber-200';
-      case 'C': return 'py-2 inline-block mx-2 my-2 text-center w-15 rounded-[10] text-[2.6rem]     text-zinc-400';
-      case 'D': return 'py-2 inline-block mx-2 my-2 text-center w-15 rounded-[10] text-[2.6rem]     text-zinc-600';
-      default: return 'text-zinc-500';
-    }
-  };
-
-
   return (
     <div className="bg-[linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),url('/tweed.png')] p-6 pb-4 pt-6  border border-gray-800 shadow-emerald-800">
 
@@ -76,10 +64,11 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
 
           </div>
           <div className=" py-4">
+            <span className="font-bold text-sm">{hero.id}</span>
+
             <h1 className=" text-[1.8rem] font-black text-amber-400  px-4 pt-5"> {hero?.name}</h1>
 
             <span className={getTierStyle(hero?.tier || 'A')}>{hero?.tier}</span>
-
             {hero.tags.map((tag, index) => {
               // rotation of tags based of index 1 2 3
               const rotations = ['-rotate-4', '-rotate-2', 'rotate-2'];
@@ -135,7 +124,6 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
       </div>
 
       <HeroAbilitiesCard abilities={hero.abilities} />
-
 
     </div>
   )

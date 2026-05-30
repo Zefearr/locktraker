@@ -30,12 +30,19 @@ export default function Item({ item }: { item: itemDesc }) {
   const fontClass = wordCount >= 3 ? smallFontClass : baseFontClass;
 
   return (
-    <div key={item.id} className="w-25 p-1 group border bg-amber-100 rounded-[0.4rem] border-amber-100 relative rounded-1xl  cursor-pointer">
-      <Image alt={`${item.itemName} name`} src={item.image} width={50} height={50} className="opacity-80 cursor-pointer h-auto w-25  -z-10" />
-      <div className="bottom-0 left-0 w-full min-h-15 flex items-center bg-amber-700 ">
+    <div key={item.id} className="w-25 overflow-hidden group hover:overflow-visible  bg-amber-100 rounded-[0.4rem] border-amber-100 relative rounded-1xl  cursor-pointer">
+      <Image alt={`${item.itemName} name`} src={item.image} width={100} height={100} className="opacity-80 cursor-pointer h-auto w-25  -z-10" />
+      <div className="bottom-0 left-0 w-full min-h-15 flex items-center bg-amber-100 ">
 
         <span className={fontClass}>{item?.itemName} </span>
-        <div className="overflow-hidden opacity-0 w-70 h-60 origin-bottom text-[0.9rem] scale-90 transition-all duration-300 group-hover:opacity-100 group-hover:scale-110 bg-amber-100 z-10 absolute left-0  p-4 rounded-2xl ">
+
+        <div className="overflow-hidden 
+         opacity-0 w-70 h-60
+          origin-bottom text-[0.9rem]
+           scale-0 transition-all duration-300
+            group-hover:opacity-100
+             group-hover:scale-110 bg-amber-100
+              z-10 absolute left-0  p-4 rounded-2xl ">
           <span className=" text-deadlock-dark">{item?.description}</span>
           {(item?.upgrades || []).map((upgrade: any, uIdx: number) => (
             <div key={uIdx} className="text-deadlock-dark font-bold">
