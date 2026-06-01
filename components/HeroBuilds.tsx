@@ -117,7 +117,7 @@ export function BuildCard({ build, itemsMap }: { build: HeroBuild, itemsMap: any
   return (
 
     <div className="my-4  bg-amber-50 rounded-lg overflow-hidden  bg-[url('/lined_paperdark.png')] bg-absolute border border-gray-850">
-      <Link href={`/builds/${buildId}?t=${build.hero_build?.last_updated_timestamp}`}>
+      <Link href={`/builds/${buildId}?t=${build.hero_build?.last_updated_timestamp}/${build.hero_build.name}`}>
         <h3 className=" p-4 relative block text-[1.7rem] bg-gray-700/95 text-gray-200 font-semibold ">
           {buildInfo?.name}
           <span className="pl-12 text-[0.6rem] font-bold">{calculateTime(buildInfo.last_updated_timestamp)}</span>

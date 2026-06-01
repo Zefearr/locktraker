@@ -54,7 +54,7 @@ export async function getAllBuilds(limit: number = 3, sortBy: string = 'recent',
 
   try {
 
-    const buildsApiurl = `https://api.deadlock-api.com/v1/builds`;
+    const buildsApiurl = `https://api.deadlock-api.com/v1/builds?only_latest=true`;
 
     const response = await fetch(buildsApiurl, {
       next: { revalidate: 3600 }
@@ -97,7 +97,6 @@ export async function getBuildByBuildId(buildId: number): Promise<HeroBuild | nu
     if (!response.ok) return null;
 
     const buildData = await response.json();
-
 
     return buildData;
 

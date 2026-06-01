@@ -4,7 +4,7 @@ import { flattenItems } from "@/services/itemService";
 import { fetchAllItemsNested } from "@/services/itemService";
 
 interface PageProps {
-  // params: Promise<{ name: string, id: number }>;
+
   searchParams: Promise<{ limit?: string; sort?: string; order?: string }>;
 }
 
@@ -12,9 +12,9 @@ export default async function Builds({ searchParams }: PageProps) {
 
   const resolvedSearchParams = await searchParams;
 
-  const currentLimit = Number(resolvedSearchParams.limit) || 12;
+  const currentLimit = Number(resolvedSearchParams.limit) || 24;
   const currentSort = resolvedSearchParams.sort || 'recent';
-  const currentOrder = resolvedSearchParams.order || 'desc'; // Читаем order
+  const currentOrder = resolvedSearchParams.order || 'desc';
 
   const [buildsData, nestedItems] = await Promise.all([
 
@@ -24,7 +24,6 @@ export default async function Builds({ searchParams }: PageProps) {
   if (!nestedItems) return null;
 
   const itemsMap = flattenItems(nestedItems);
-
 
   return (
 

@@ -80,26 +80,23 @@ export async function fetchAllItemsNested(): Promise<NestedGroupedItems | null> 
     return slots.reduce((acc, slot, index) => {
       acc[slot] = processNestedData(results[index]);
 
-
       Object.values(acc[slot]).forEach(tierArray => {
 
 
-
         const uniqueItems = tierArray.filter(item => {
-          // Замени .id на .ability_id или .class_name, если уникальный ключ в API называется иначе
+
           const itemId = item.itemName;
 
           if (seenItemIds.has(itemId)) {
-            return false; // Дубликат, выкидываем
+            return false;
           }
 
-          seenItemIds.add(itemId); // Новый предмет, запоминаем его
+          seenItemIds.add(itemId);
           return true;
         });
 
         tierArray.length = 0;
         tierArray.push(...uniqueItems);
-        console.log(uniqueItems)
         tierArray.sort((a, b) => a.cost - b.cost);
 
       });
