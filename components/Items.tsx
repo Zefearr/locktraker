@@ -16,7 +16,7 @@ function calculateTierPrice(tier: string) {
 
 export default function ItemsList({ tiers }: ItemsListProps) {
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 ">
       {Object.entries(tiers)
         .sort(([a], [b]) => Number(a) - Number(b))
         .map(([tier, itemsArray]) => (

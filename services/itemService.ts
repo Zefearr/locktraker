@@ -74,13 +74,34 @@ export async function fetchAllItemsNested(): Promise<NestedGroupedItems | null> 
       slots.map(slot => fetch(`https://assets.deadlock-api.com/v2/items/by-slot-type/${slot}`))
     );
     const results = await Promise.all(responses.map(res => res.json()));
+    const seenItemIds = new Set<string>();
+
 
     return slots.reduce((acc, slot, index) => {
-
       acc[slot] = processNestedData(results[index]);
 
+
       Object.values(acc[slot]).forEach(tierArray => {
+
+
+
+        const uniqueItems = tierArray.filter(item => {
+          // Замени .id на .ability_id или .class_name, если уникальный ключ в API называется иначе
+          const itemId = item.itemName;
+
+          if (seenItemIds.has(itemId)) {
+            return false; // Дубликат, выкидываем
+          }
+
+          seenItemIds.add(itemId); // Новый предмет, запоминаем его
+          return true;
+        });
+
+        tierArray.length = 0;
+        tierArray.push(...uniqueItems);
+        console.log(uniqueItems)
         tierArray.sort((a, b) => a.cost - b.cost);
+
       });
       return acc;
     }, {} as NestedGroupedItems);
