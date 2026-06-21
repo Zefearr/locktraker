@@ -208,6 +208,7 @@ export async function getSingleHero(name: string): Promise<SingleHero | null> {
         }
       })
 
+
     return {
       id: heroesData?.id,
       name: heroesData?.name,

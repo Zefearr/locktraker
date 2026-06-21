@@ -1,6 +1,4 @@
 'use client';
-import { useState } from "react";
-import { StarIcon } from "./ui/icons";
 import { highlightText } from "./HeroSingle";
 export default function AbilityList({ abilities }: { abilities: any[] }) {
 
@@ -8,9 +6,12 @@ export default function AbilityList({ abilities }: { abilities: any[] }) {
 
   return (
     <div className="flex flex-wrap gap-2 mb-10 ">
-      {abilities.map((ability, index) => (
-        <AbilityCard key={index} ability={ability} />
-      ))}
+
+      {abilities.map((ability, index) => {
+        if (ability.name === "Melee") return null;
+
+        return <AbilityCard key={index} ability={ability} />
+      })}
     </div>
   );
 }
@@ -32,16 +33,12 @@ function AbilityCard({ ability }: { ability: any }) {
             className="w-25 h-25 object-cover"
           />
         )}
-        {/* <span className="absolute bottom-0 left-0 w-full py-2 opacity-95 bg-deadlock-dark  text-deadlock-headings uppercase tracking-wider text-[0.4rem]">
-          {ability.name}
 
-        </span> */}
       </button>
 
 
       <div className="w-120 flex flex-col absolute scale-0 h-auto opacity-0 origin-top-left group-hover:opacity-100 
               transition-opacity group-hover:scale-100 z-10 bg-[linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),url('/tweed.png')] border border-gray-800">
-        {/* <span className="absolute inset-0 w-full h-full bg-[url('/tweed.png')] z-0 opacity-100"></span> */}
 
 
         <div className="flex-4 p-4 mb-2 z-1 ">
@@ -109,47 +106,6 @@ function AbilityCard({ ability }: { ability: any }) {
             )}
           </div>
         </div>
-
-
-
-        {/* <div className="flex flex-1 flex-row justify-between gap-4">
-          {(ability.upgrades || []).map((upgrade: any, uIdx: number) => (
-            <div key={uIdx} className="border w-[33%] overflow-hidden min-h-70" >
-              <div className=" bg-[#0d0d11] text-lg">
-                <div className="flex items-center justify-center">
-                  <span className="text-[0.9rem] -translate-x-1  block rounded-md -rotate-z-90  text-deadlock-headings">🗲</span>
-                  <span className="inline">{uIdx + 1}</span>
-                </div>
-
-              </div>
-              <div className="flex flex-col items-center overflow-hidden justify-center bg-purple-950 h-full">
-
-                {upgrade.property_upgrades?.map((prop: any, pIdx: number) => (
-                  <div key={pIdx} className="last:border-0 text-[0.6rem] py-1 items-center">
-
-
-                    <span className="text-green-400 font-bold px-2">
-                      {typeof prop.bonus === 'number' && prop.bonus > 0 ? `+${prop.bonus}` : prop.bonus}
-                    </span>
-                    <span className="opacity-70 font-bold text-[0.6rem] text-amber-100">{prop.name}</span>
-
-                  </div>
-                ))}
-
-                {upgrade.description && (
-                  <p className="mt-1 italic opacity-80 border-t border-blue-900 pt-1">
-                    {upgrade.description.replace(/<[^>]*>/g, '')}
-                  </p>
-                )}
-
-              </div>
-            </div>
-          ))}
-        </div> */}
-
-
-
-
 
       </div>
     </div>

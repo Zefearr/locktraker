@@ -96,8 +96,7 @@ export async function getBuildByBuildId(buildId: number): Promise<HeroBuild | nu
 
     if (!response.ok) return null;
 
-    const buildData = await response.json();
-
+    const buildData = (await response.json()) as HeroBuild;
     return buildData;
 
   } catch (e) {

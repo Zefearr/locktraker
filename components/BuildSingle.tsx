@@ -55,14 +55,14 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
 
           const hasValidItems = category.mods?.some((mod: any) => {
             const itemData = itemsMap[mod.ability_id];
-            return itemData && itemData.image; // вернет true, если есть image
+            return itemData && itemData.image; 
           });
 
           if (!hasValidItems) return null;
 
           return (
             <div className="bg-[#6e6e6e] cursor-pointer relative" key={index}>
-              {category && (
+             
                 <div className="flex items-center bg-gray-900  ">
                   <span className="text-[1.5rem]  text-gray-100 p-4 py-2 ">{category.name || "Generally good items"}</span>
                   {category.description && (
@@ -70,13 +70,11 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
                   )}
                 </div>
 
-              )}
+             
               <div className="flex p-4 flex-wrap">
                 {category.mods?.map((mod: any, idx: number) => {
                   const itemData = itemsMap[mod.ability_id];
                   if (!itemData?.image) return null;
-
-
 
                   const isMeActive = activeItemId === mod.ability_id;
                   return (
@@ -88,7 +86,7 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
                           name: itemData.itemName || "Unknown Item",
                           description: itemData.description || "No description available.",
                           annotation: mod.annotation || "",
-                          cost: itemData.cost, // если в твоей базе itemsMap есть цена
+                          cost: itemData.cost, 
                           upgrades: currentModInfo?.property_upgrades || []
                         });
                       }}
@@ -133,7 +131,7 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
           style={floatingStyles}
           className="w-72 bg-zinc-950/95 text-zinc-100 text-xs p-4 rounded-md shadow-2xl border border-zinc-800 z-50 pointer-events-none wrap-break-word flex flex-col gap-2.5 animate-in fade-in duration-100"
         >
-          {/* Шапка тултипа: Название и Цена */}
+        
           <div className="flex justify-between items-start border-b border-zinc-800 pb-2">
             <h4 className="font-bold text-amber-400 text-sm uppercase tracking-wide">
               {tooltipData.name}
