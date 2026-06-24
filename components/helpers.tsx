@@ -11,16 +11,19 @@ export const getTierStyle = (tier: string | undefined) => {
 };
 export const calculateTime = (timestamp: number) => {
 
-  if (!timestamp) return 'Неизвестно';
+  if (!timestamp) return 'Unknown';
 
-  // Умножаем на 1000, чтобы перевести секунды в миллисекунды
   const date = new Date(timestamp * 1000);
 
-  return date.toLocaleString('ru-RU', {
+  return date.toLocaleString('en-GB', {
     day: 'numeric',
-    month: 'long',   // Выведет месяц словом: "мая", "июня"
+    month: 'long',
     year: 'numeric',
-    hour: '2-digit', // Выведет часы: "17"
-    minute: '2-digit', // Выведет минуты: "11"
+    hour: '2-digit',
+    minute: '2-digit',
   });
 }
+export const truncateText = (text: string, max: number) => {
+  if (!text) return '';
+  return text.length > max ? text.slice(0, max).trim() + '...' : text;
+};

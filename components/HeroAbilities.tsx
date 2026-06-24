@@ -2,16 +2,22 @@
 import { highlightText } from "./HeroSingle";
 export default function AbilityList({ abilities }: { abilities: any[] }) {
 
-
-
   return (
-    <div className="flex flex-wrap gap-2 mb-10 ">
+    <div className="flex-1 px-4">
+      {/* <h3 className="text-lg text-center">Abilities:</h3> */}
+      <div className="flex flex-row gap-2">
+        {abilities.map((ability, index) => {
+          if (ability.name === "Melee") return null;
 
-      {abilities.map((ability, index) => {
-        if (ability.name === "Melee") return null;
+          return (
 
-        return <AbilityCard key={index} ability={ability} />
-      })}
+
+            <AbilityCard key={index} ability={ability} />
+
+          )
+        })}
+      </div>
+
     </div>
   );
 }
@@ -20,7 +26,6 @@ function AbilityCard({ ability }: { ability: any }) {
   return (
 
     <div className="w-25 h-25 mt-10 group relative">
-
 
       <div className="absolute left-0 top-0 w-full h-full border-2 border-[#0F0F16] rounded-[50%]"></div>
       <button
@@ -36,10 +41,8 @@ function AbilityCard({ ability }: { ability: any }) {
 
       </button>
 
-
       <div className="w-120 flex flex-col absolute scale-0 h-auto opacity-0 origin-top-left group-hover:opacity-100 
               transition-opacity group-hover:scale-100 z-10 bg-[linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),url('/tweed.png')] border border-gray-800">
-
 
         <div className="flex-4 p-4 mb-2 z-1 ">
 

@@ -30,6 +30,7 @@ export default async function HeroDetailPage({ params, searchParams }: PageProps
     getBuildsById(hero.id, currentLimit, currentSort, currentOrder),
     fetchAllItemsNested()
   ])
+
   if (!nestedItems) return null;
 
   const heroFromList = allHeroesData?.find(h => h.name.toLowerCase() === decodedName.toLowerCase());
@@ -37,8 +38,9 @@ export default async function HeroDetailPage({ params, searchParams }: PageProps
     ...hero,
     tier: heroFromList?.tier
   }
+  console.log(heroFromList);
   const itemsMap = flattenItems(nestedItems);
-  // console.log(buildsData)
+
   return (
     <div className="max-w-[1280px] m-auto">
       <HeroSingle hero={enrichedHero} />

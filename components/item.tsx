@@ -73,8 +73,8 @@ export default function Item({ item }: { item: itemDesc }) {
           <div
             ref={refs.setFloating}
             style={floatingStyles}
-            className="w-72 bg-zinc-950/95 text-zinc-100 text-xs p-4 rounded-md shadow-2xl
-             border border-zinc-800 z-50 pointer-events-none break-words flex flex-col gap-2.5
+            className="w-72 bg-zinc-950/95 text-zinc-100 text-[0.8rem] p-4 rounded-md shadow-2xl
+              z-50 pointer-events-none wrap-break-word flex flex-col gap-2.5
               animate-in fade-in
               animate-in       
              fade-in-0       

@@ -7,6 +7,39 @@ import { useState, useMemo } from "react";
 import { ArrowIcon } from "@/components/ui/icons";
 import { Tier } from "@/services/heroService";
 import { Funnel_Sans } from "next/font/google";
+import { Metadata } from "next";
+
+
+export const metadata: Metadata = {
+  title: 'Персонажи Deadlock — Все герои, характеристики и тир-листы',
+  description: 'Полная таблица персонажей игры Deadlock. Актуальные базовые параметры, здоровье, урон, слоты и скрытые характеристики героев.',
+
+  // Open Graph (для отображения в соцсетях, Discord, Telegram)
+  openGraph: {
+    title: 'Таблица персонажей Deadlock | База данных',
+    description: 'Все герои Deadlock в одном месте. Сортировка по характеристикам, стоимости билдов и типам урона.',
+    url: 'https://deadlock-tracker.ru/heroes', // замени на свой домен
+    siteName: 'Deadlock Tracker',
+    images: [
+      {
+        url: 'https://deadlock-tracker.ru/og/heroes-table.png', // превью-картинка для ссылки
+        width: 1200,
+        height: 630,
+        alt: 'Таблица героев Deadlock',
+      },
+    ],
+    locale: 'ru_RU',
+    type: 'website',
+  },
+
+  // Настройки для Twitter/X
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Персонажи Deadlock — Все герои',
+    description: 'Полная таблица персонажей игры Deadlock с актуальными характеристиками.',
+    images: ['https://deadlock-tracker.ru/og/heroes-table.png'],
+  },
+};
 
 export const saira = Funnel_Sans({
   weight: ['300', '400', '500', '600', '700'],
@@ -25,6 +58,7 @@ const getTierStyle = (tier: Tier) => {
     default: return 'text-zinc-500';
   }
 };
+
 
 export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
   const [sortKey, setSortKey] = useState<keyof CleanHero>('winrate');
@@ -63,19 +97,15 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
       } ${isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'}`;
   };
 
-
   const handleSort = (key: keyof CleanHero) => {
 
     if (sortKey === key) {
-      // Если нажали на то же поле — меняем направление
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     } else {
-      // Если нажали на новое поле — ставим его и сбрасываем на desc (популярный выбор)
       setSortKey(key);
       setSortOrder('desc');
     }
   };
-
 
   return (
     <div className="bg-[linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),url('/tweed.png')] px-6 py-6 shadow-lg shadow-gray-900">

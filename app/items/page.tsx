@@ -1,19 +1,10 @@
 import type { Metadata } from "next";
 
 import ItemsList from "@/components/Items";
-// import { fetchItems } from "@/services/itemService";
 import { fetchAllItemsNested } from "@/services/itemService";
 import Loading from "../heroes/loading";
 import { act, Suspense } from 'react';
 import Link from "next/link";
-
-
-// export const metadata: Metadata = {
-//   title: "This is items metadata title",
-//   description: "Find items metadata information",
-// }
-
-
 
 interface PageProps {
   searchParams: Promise<{ type?: string }>;
@@ -58,14 +49,6 @@ export default async function ItemsPage({ searchParams }: PageProps) {
     <div className="p-4 min-h-screen text-white">
       <nav className="flex gap-4 mb-8 border-b border-white/10 pb-2">
         {Object.keys(data).map((slot) => (
-          // <Link
-          //   key={slot}
-          //   href={`?tab=${slot}`}
-          //   className={`px-4 py-2 capitalize transition-all ${activeTab === slot
-          //     ? 'text-amber-500 border-b-2 border-amber-500 font-bold'
-          //     : 'text-gray-400 bg-amber-200 hover:text-white'
-          //     }`}
-          // >
           <Link
             key={slot}
             href={`?type=${slot}`}

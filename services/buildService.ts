@@ -20,29 +20,43 @@ export async function getBuildsById(heroId: number, limit: number = 3, sortBy: s
     const response = await fetch(buildsApiurl, {
       next: { revalidate: 3600 }
     });
+
     if (!response.ok) return null;
 
-    const seenNames = new Set<string>();
     const buildsData: HeroBuild[] = await response.json();
-    const isDesc = order === 'desc'; // Флаг: сортируем по убыванию?
+    const isDesc = order === 'desc';
 
-    const sortedBuildsData = buildsData.sort((a, b) => {
+    const sortedByTime = [...buildsData].sort((a, b) => {
+      const timeA = a.hero_build?.last_updated_timestamp || 0;
+      const timeB = b.hero_build?.last_updated_timestamp || 0;
+      return timeB - timeA;
+    });
 
-      if (sortBy === 'recent') {
-        const timeA = a.hero_build?.last_updated_timestamp || 0;
-        const timeB = b.hero_build?.last_updated_timestamp || 0;
-        return isDesc ? timeB - timeA : timeA - timeB;
-      }
+    const seenAuthors = new Set<string>();
+    const uniqueAuthorBuilds = sortedByTime.filter(build => {
 
-      const favA = a.num_favorites || 0;
-      const favB = b.num_favorites || 0;
+      const authorId = build.hero_build?.author_account_id;
 
-      return isDesc ? favB - favA : favA - favB;
+      if (!authorId) return true;
+      if (seenAuthors.has(authorId)) return false;
 
-    })
+      seenAuthors.add(authorId);
+      return true;
+    });
+
+    if (sortBy !== 'recent') {
+      uniqueAuthorBuilds.sort((a, b) => {
+        const favA = a.num_favorites || 0;
+        const favB = b.num_favorites || 0;
+        return isDesc ? favB - favA : favA - favB;
+      });
+    } else if (!isDesc) {
+      uniqueAuthorBuilds.reverse();
+    }
+
+    return uniqueAuthorBuilds.slice(0, limit);
 
 
-    return sortedBuildsData.slice(0, limit)
   } catch (e) {
     console.log(e);
   }
@@ -50,7 +64,7 @@ export async function getBuildsById(heroId: number, limit: number = 3, sortBy: s
   return null;
 }
 
-export async function getAllBuilds(limit: number = 3, sortBy: string = 'recent', order: string = 'desc'): Promise<HeroBuild[] | null> {
+export async function getAllBuilds(limit: number = 12, sortBy: string = 'recent', order: string = 'desc'): Promise<HeroBuild[] | null> {
 
   try {
 
@@ -96,7 +110,8 @@ export async function getBuildByBuildId(buildId: number): Promise<HeroBuild | nu
 
     if (!response.ok) return null;
 
-    const buildData = (await response.json()) as HeroBuild;
+    const buildData = await response.json();
+
     return buildData;
 
   } catch (e) {

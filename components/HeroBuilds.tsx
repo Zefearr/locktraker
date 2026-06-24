@@ -1,10 +1,10 @@
 'use client'
 import { HeroBuild } from "@/services/buildService";
-import { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { DeadlockArrowIcon } from "./ui/icons";
 import { calculateTime } from "./helpers";
 import Link from "next/link";
+import { truncateText } from "./helpers";
 
 interface BuildsListProps {
   builds: HeroBuild[];
@@ -13,7 +13,6 @@ interface BuildsListProps {
   currentSort?: string;
   currentOrder?: string;
 }
-
 
 export default function BuildsList({ builds, itemsMap, currentLimit, currentSort, currentOrder }: BuildsListProps) {
 
@@ -25,16 +24,15 @@ export default function BuildsList({ builds, itemsMap, currentLimit, currentSort
     let nextLimit = 3;
 
     if (currentSort === sortType) {
+
       nextOrder = currentOrder === 'desc' ? 'asc' : 'desc';
       nextLimit = currentLimit;
     } else {
       nextOrder = 'desc';
-      nextLimit = 3;
+      nextLimit = currentLimit;
     }
-
     router.push(`${pathname}?limit=${nextLimit}&sort=${sortType}&order=${nextOrder}`, { scroll: false });
   };
-
 
   const handleLoadMore = () => {
     const nextLimit = currentLimit + 3;
@@ -44,7 +42,7 @@ export default function BuildsList({ builds, itemsMap, currentLimit, currentSort
   return (
     <div className="my-12">
 
-      <div className="flex p-8 py-4 border rounded-md ">
+      <div className="flex p-8 py-4 mb-4 border border-gray-800 shadow-emerald-800 ">
         <h3 className="text-[1.5rem] uppercase font-bold mr-12">Builds</h3>
 
         <button
@@ -70,17 +68,17 @@ export default function BuildsList({ builds, itemsMap, currentLimit, currentSort
             }`}
         >
           <span> Recent</span>
+
           <DeadlockArrowIcon
             className={`w-2.5  h-2.5  transition-transform duration-200 ${currentOrder === 'asc' && currentSort === 'recent' ? 'rotate-180' : 'rotate-0'
               }`}
           />
         </button>
       </div>
-      <div className="flex  flex-wrap justify-between">
+      <div className="flex  flex-wrap gap-4 justify-between px-4 md:px-2 lg:px-0">
         {builds.map((build, index) => (
           <BuildCard key={index} build={build} itemsMap={itemsMap} />
         ))}
-
 
       </div>
 
@@ -108,63 +106,46 @@ export default function BuildsList({ builds, itemsMap, currentLimit, currentSort
   );
 }
 
-
 export function BuildCard({ build, itemsMap }: { build: HeroBuild, itemsMap: any }) {
 
-  // const [isOpen, setIsOpen] = useState(false);
   const buildInfo = build.hero_build;
-
 
   if (!buildInfo || !buildInfo.details) return null;
   const buildId = build.hero_build?.hero_build_id;
 
   return (
 
-    <div className="my-2 mx-2 bg-amber-50 flex-grow relative rounded-lg w-100 overflow-hidden  bg-[url('/lined_paperdark.png')] bg-absolute border border-gray-850">
+    <Link href={`/builds/${buildId}?t=${build.hero_build?.last_updated_timestamp}/${build.hero_build.name}`} className=" bg-amber-50 grow relative  w-100 overflow-hidden  bg-[url('/lined_paperdark.png')] bg-absolute hover:scale-[1.05] hover:shadow-md shadow-blue-200 transition-all cursor-pointer">
 
-      <Link href={`/builds/${buildId}?t=${build.hero_build?.last_updated_timestamp}/${build.hero_build.name}`}>
-        <h3 className=" p-4 relative block text-[1.7rem] bg-gray-700/95 text-gray-200 font-semibold ">
-          {buildInfo?.name}
-          <span className="pl-12 text-[0.6rem] font-bold">{calculateTime(buildInfo.last_updated_timestamp)}</span>
-
-          {/* <button onClick={() => setIsOpen(!isOpen)}
-            className={isOpen ? rotated : rotationDeffault} > <DeadlockArrowIcon className="w-8 h-8 text-deadlock-headings " />
-          </button> */}
-
+      <div className="flex flex-row items-center bg-deadlock-dark ">
+        <h3 className="flex-1 p-4 pl-6 relative block text-[1rem] text-gray-200 font-semibold whitespace-nowrap">
+          {truncateText(buildInfo?.name, 20)}
         </h3>
-      </Link>
+        <span className="block flex-1 pl-12 text-[0.6rem] font-bold whitespace-nowrap">{calculateTime(buildInfo?.last_updated_timestamp)}</span>
+        {/* <span className="block flex-2 pl-12 text-[0.6rem] font-bold whitespace-nowrap">{buildInfo?.author_account_id} </span> */}
 
-      <div className="p-4 flex gap-4 flex-wrap overflow-hidden">
-        {buildInfo.details.mod_categories?.map((category: any, index: number) => {
-
-          const firstValidMod = category.mods?.find((mod: any) => itemsMap[mod.ability_id]?.image);
-          if (!firstValidMod) return null;
-
-          const itemData = itemsMap[firstValidMod.ability_id];
-
-
-          return (
-            <div className="bg-[#6e6e6e]  " key={index}>
-
-
-
-              <img width={50} height={50} src={itemData?.image} alt="itemData?.name" />
-
-
-
-
-            </div>
-          )
-
-        })}
       </div>
 
+      <div className="p-4 flex gap-4 flex-wrap overflow-hidden">
 
+        {buildInfo.details.mod_categories?.filter((category: any) => category.mods?.some((mod: any) => itemsMap[mod.ability_id]?.image))
 
+          .slice(0, 6)
 
+          .map((category: any, index: number) => {
 
+            const firstValidMod = category.mods?.find((mod: any) => itemsMap[mod.ability_id]?.image);
+            const itemData = itemsMap[firstValidMod.ability_id];
 
+            return (
+              <div className="bg-[#6e6e6e]" key={index}>
+                <img width={50} height={50} src={itemData?.image} alt={itemData?.itemName || "item"} />
+              </div>
+            );
+          })
+        }
+      </div>
 
-    </div>
+    </Link>
   );
 }

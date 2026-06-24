@@ -73,6 +73,8 @@ export interface SingleHero {
   lore?: string;
   abilities: any[];
   tier?: string;
+  basehealth?: string;
+  basespeed?: string;
 }
 
 
@@ -89,7 +91,6 @@ function calculateWinRate(wins: number, matches: number): number {
   // const winrate = ((wins / matches) * 100).toFixed(1);
 
   if (!matches || matches === 0) return 0;
-  // Возвращаем число. Округляем до 1 знака, если нужно, но оставляем числом.
   return Math.round((wins / matches) * 1000) / 10;
 }
 
@@ -111,7 +112,6 @@ function calculateTier(winrate: number): Tier {
 
 export async function fetchHeroes(): Promise<CleanHero[] | null> {
 
-  //api links as promise
   try {
     const [heroesData, statsData] = await Promise.all([
       fetch(`https://assets.deadlock-api.com/v2/heroes?language=english&client_version=6430&only_active=true`, {
@@ -174,7 +174,7 @@ export const formatVal = (val: any): string => {
 
 export async function getSingleHero(name: string): Promise<SingleHero | null> {
   try {
-    const url = `https://assets.deadlock-api.com/v2/heroes/by-name/${name}?language=english&client_version=6430`;
+    const url = `https://assets.deadlock-api.com/v2/heroes/by-name/${name}`;
     const fetchHeroes = await fetch(url);
     if (!fetchHeroes.ok) return null;
 
@@ -182,6 +182,7 @@ export async function getSingleHero(name: string): Promise<SingleHero | null> {
 
     const abilityRawData = await fetch(`https://assets.deadlock-api.com/v2/items/by-hero-id/${heroesData?.id}`);
     const abilityDataById = await abilityRawData.json();
+
 
 
     const cleanAbilities: HeroAbility[] = abilityDataById
@@ -195,8 +196,6 @@ export async function getSingleHero(name: string): Promise<SingleHero | null> {
           upgradeThreeDescription: ability.description?.t3_desc?.replace(/<[^>]*>/g, '') ?? '',
           cooldown: ability.properties.AbilityCooldown.value || '',
           abilityCharges: formatVal(ability.properties.AbilityCharges?.value),
-          // abilityRange: ability.properties.AbilityCastRange.value > 0 ? ability.properties.AbilityCastRange.value : '',
-          // abilityCharges: ability.properties.AbilityCharges?.value || '',
           abilityRange: formatVal(ability.properties.Radius?.value),
           abilityDamage: ability.properties.Damage?.value || '',
           quip: ability.description.quip || '',
@@ -208,7 +207,6 @@ export async function getSingleHero(name: string): Promise<SingleHero | null> {
         }
       })
 
-
     return {
       id: heroesData?.id,
       name: heroesData?.name,
@@ -218,6 +216,8 @@ export async function getSingleHero(name: string): Promise<SingleHero | null> {
       playstyle: heroesData.description.playstyle,
       hero_type: heroesData.hero_type,
       tags: heroesData.tags,
+      basehealth: heroesData.starting_stats.max_health.value,
+      basespeed: heroesData.starting_stats.sprint_speed.value,
       abilities: cleanAbilities
     };
   } catch (error) {

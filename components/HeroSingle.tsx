@@ -51,7 +51,7 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
 
       <div className="flex flex-row gap-4">
         <div className="flex flex-1 flex-col w-40  overflow-hidden">
-          <div className="relative h-80 overflow-hidden">
+          <div className="relative h-80 overflow-hidden ">
             <Image
               loading="eager"
               src={hero?.image || ""}
@@ -63,10 +63,11 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
             {/* <span className="font-bold">{hero?.id}</span> */}
 
           </div>
-          <div className=" py-4">
-            <span className="font-bold text-sm">{hero.id}</span>
 
-            <h1 className=" text-[1.8rem] font-black text-amber-400  px-4 pt-5"> {hero?.name}</h1>
+          <h1 className=" text-[1.8rem] font-black text-amber-400  px-4 pt-5"> {hero?.name}</h1>
+          <div className=" py-4 flex-1">
+
+
 
             <span className={getTierStyle(hero?.tier || 'A')}>{hero?.tier}</span>
             {hero.tags.map((tag, index) => {
@@ -94,18 +95,29 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
             })}
 
           </div>
-
         </div>
-        <div className="flex-4 text-[1.2rem] text-gray-200 p-5 py-0 ">
-
+        <div className="flex-4 items-center text-[1.2rem] text-gray-200 p-5 py-0 ">
           {hero?.playstyle &&
             <div>
               <p className="font-thin text-[1.2rem] italic text-gray-400 uppercase ">" {hero?.playstyle} "</p>
-              <br />
+
             </div>}
+          <div className="flex gap-x-4">
+            <span className="flex flex-row  my-4 items-center gap-x-2"> <span className="text-[0.9rem]">Class: </span>
+              <span className="px-2  inline-block min-w-10 bg-[#224D31] text-gray-100 text-sm">{hero.hero_type} </span>
+            </span>
+            <span className="flex flex-row  my-4 items-center gap-x-2"> <span className="text-[0.9rem]">Base Health: </span>
+              <span className="px-2  inline-block min-w-10 bg-[#224D31] text-gray-100 text-sm">{hero.basehealth} </span>
+            </span>
+            <span className="flex flex-row  my-4 items-center gap-x-2"> <span className="text-[0.9rem]">Base Speed: </span>
+              <span className="px-2  inline-block min-w-10 bg-[#224D31] text-gray-100 text-sm">{hero.basespeed} </span>
+            </span>
+          </div>
+
           {hero?.lore && (
 
             <div className="relative">
+
               <p className="text-black relative text-[1.2rem] z-10 p-4 font-thin"> {hero.lore}</p>
               <span className="bg-[url('/lined_paper.png')] border absolute inset-0 w-full z-1 h-full opacity-50
             
@@ -119,11 +131,13 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
 
           )}
 
+
+          <HeroAbilitiesCard abilities={hero.abilities} />
+
         </div>
 
       </div>
 
-      <HeroAbilitiesCard abilities={hero.abilities} />
 
     </div>
   )

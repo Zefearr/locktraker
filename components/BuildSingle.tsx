@@ -44,10 +44,11 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
   if (!buildInfo || !buildInfo.details) return null;
 
   return (
-    <div className="my-4  bg-amber-50 rounded-lg overflow-hidden  bg-[url('/lined_paperdark.png')] bg-absolute border border-gray-850">
-      <h3 className=" p-4 relative block text-[1.7rem] bg-gray-700/95 text-gray-200 font-semibold ">
-        {buildInfo?.name}
-        <span className="pl-12 text-[0.6rem] font-bold">{calculateTime(buildInfo.last_updated_timestamp)}</span>
+    <div className="my-4  bg-amber-50 overflow-hidden  bg-[url('/lined_paperdark.png')] 
+                 bg-absolute">
+      <h3 className=" p-4 relative flex items-center text-[1.7rem] bg-gray-700/95 text-gray-200 font-semibold ">
+        <span className="px-4">{buildInfo?.name}</span>
+        <span className="pl-12 text-[0.8rem] font-bold">{calculateTime(buildInfo.last_updated_timestamp)}</span>
       </h3>
 
       <div className="p-4 flex gap-4 flex-wrap ">
@@ -55,14 +56,14 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
 
           const hasValidItems = category.mods?.some((mod: any) => {
             const itemData = itemsMap[mod.ability_id];
-            return itemData && itemData.image; 
+            return itemData && itemData.image;
           });
 
           if (!hasValidItems) return null;
 
           return (
             <div className="bg-[#6e6e6e] cursor-pointer relative" key={index}>
-             
+              {category && (
                 <div className="flex items-center bg-gray-900  ">
                   <span className="text-[1.5rem]  text-gray-100 p-4 py-2 ">{category.name || "Generally good items"}</span>
                   {category.description && (
@@ -70,7 +71,7 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
                   )}
                 </div>
 
-             
+              )}
               <div className="flex p-4 flex-wrap">
                 {category.mods?.map((mod: any, idx: number) => {
                   const itemData = itemsMap[mod.ability_id];
@@ -86,7 +87,7 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
                           name: itemData.itemName || "Unknown Item",
                           description: itemData.description || "No description available.",
                           annotation: mod.annotation || "",
-                          cost: itemData.cost, 
+                          cost: itemData.cost,
                           upgrades: currentModInfo?.property_upgrades || []
                         });
                       }}
@@ -129,9 +130,10 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
         <div
           ref={refs.setFloating}
           style={floatingStyles}
-          className="w-72 bg-zinc-950/95 text-zinc-100 text-xs p-4 rounded-md shadow-2xl border border-zinc-800 z-50 pointer-events-none wrap-break-word flex flex-col gap-2.5 animate-in fade-in duration-100"
+          className="w-100 bg-deadlock-city text-gray-200 text-xs p-4 rounded-sm shadow-2xl border
+           border-zinc-800 z-50 pointer-events-none wrap-break-word flex flex-col gap-2.5 animate-in fade-in duration-100"
         >
-        
+
           <div className="flex justify-between items-start border-b border-zinc-800 pb-2">
             <h4 className="font-bold text-amber-400 text-sm uppercase tracking-wide">
               {tooltipData.name}
@@ -142,13 +144,7 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
               </span>
             )}
 
-
-
-
-
-
           </div>
-
 
           <div className="text-zinc-400 text-[0.75rem] leading-relaxed">
             {tooltipData.description}
@@ -164,11 +160,10 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
             </div>
           )}
 
-
           {tooltipData.annotation && (
             <div className="mt-1 pt-2 border-t border-zinc-800/60 bg-amber-500/5 p-2 rounded border border-amber-500/10">
 
-              <p className="text-zinc-300 italic leading-relaxed text-[0.75rem]">
+              <p className="text-zinc-300 italic leading-relaxed text-[0.9rem]">
                 «{tooltipData.annotation}»
               </p>
             </div>
