@@ -75,6 +75,7 @@ export interface SingleHero {
   tier?: string;
   basehealth?: string;
   basespeed?: string;
+  stamina?: string;
 }
 
 
@@ -87,8 +88,6 @@ export interface AbilityUpgrade {
 }
 
 function calculateWinRate(wins: number, matches: number): number {
-
-  // const winrate = ((wins / matches) * 100).toFixed(1);
 
   if (!matches || matches === 0) return 0;
   return Math.round((wins / matches) * 1000) / 10;
@@ -107,14 +106,13 @@ function calculateTier(winrate: number): Tier {
   if (winrate >= 48) return 'B';
   if (winrate >= 45) return 'C';
   return 'D';
-
 }
 
 export async function fetchHeroes(): Promise<CleanHero[] | null> {
 
   try {
     const [heroesData, statsData] = await Promise.all([
-      fetch(`https://assets.deadlock-api.com/v2/heroes?language=english&client_version=6430&only_active=true`, {
+      fetch(`https://api.deadlock-api.com/v1/assets/heroes?only_active=true`, {
         next: { revalidate: 3600 }
       }).then(res => {
         if (!res.ok) throw new Error('Heroes fetch failed');
@@ -132,12 +130,14 @@ export async function fetchHeroes(): Promise<CleanHero[] | null> {
     const mergedHeroesData: CleanHero[] = heroesData.map((hero) => {
 
       const heroStats = statsData.find((stats: any) => stats.hero_id === hero.id);
+
       const winCount = heroStats?.wins || 0;
       const matchCount = heroStats?.matches || 0;
       const killsCount = heroStats?.total_kills || 0;
       const deathsCount = heroStats?.total_deaths || 0;
       const assistsCount = heroStats?.total_assists || 0;
-      const winrateValue = calculateWinRate(winCount, matchCount); // Это строка "51.5"
+
+      const winrateValue = calculateWinRate(winCount, matchCount);
 
       return {
         id: hero.id,
@@ -174,16 +174,14 @@ export const formatVal = (val: any): string => {
 
 export async function getSingleHero(name: string): Promise<SingleHero | null> {
   try {
-    const url = `https://assets.deadlock-api.com/v2/heroes/by-name/${name}`;
+    const url = `https://api.deadlock-api.com/v1/assets/heroes/by-name/${name}`;
     const fetchHeroes = await fetch(url);
     if (!fetchHeroes.ok) return null;
 
     const heroesData = await fetchHeroes.json();
 
-    const abilityRawData = await fetch(`https://assets.deadlock-api.com/v2/items/by-hero-id/${heroesData?.id}`);
+    const abilityRawData = await fetch(`https://api.deadlock-api.com/v1/assets/items/by-hero-id/${heroesData?.id}`);
     const abilityDataById = await abilityRawData.json();
-
-
 
     const cleanAbilities: HeroAbility[] = abilityDataById
       .map((ability: any, index: number) => {
@@ -218,6 +216,7 @@ export async function getSingleHero(name: string): Promise<SingleHero | null> {
       tags: heroesData.tags,
       basehealth: heroesData.starting_stats.max_health.value,
       basespeed: heroesData.starting_stats.sprint_speed.value,
+      stamina: heroesData.starting_stats.stamina?.value,
       abilities: cleanAbilities
     };
   } catch (error) {

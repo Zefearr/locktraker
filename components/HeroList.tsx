@@ -12,33 +12,33 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: 'Персонажи Deadlock — Все герои, характеристики и тир-листы',
-  description: 'Полная таблица персонажей игры Deadlock. Актуальные базовые параметры, здоровье, урон, слоты и скрытые характеристики героев.',
+  description: 'Полная таблица персонажей игры Deadlock. Базовые параметры, здоровье, урон, слоты и характеристики героев.',
 
   // Open Graph (для отображения в соцсетях, Discord, Telegram)
   openGraph: {
     title: 'Таблица персонажей Deadlock | База данных',
-    description: 'Все герои Deadlock в одном месте. Сортировка по характеристикам, стоимости билдов и типам урона.',
-    url: 'https://deadlock-tracker.ru/heroes', // замени на свой домен
+    description: 'Все герои Deadlock в одном месте. Сортировка по winrate, tier, kda',
+    url: 'https://locktraker.vercel.app/heroes',
     siteName: 'Deadlock Tracker',
     images: [
       {
-        url: 'https://deadlock-tracker.ru/og/heroes-table.png', // превью-картинка для ссылки
+        url: '', // превью-картинка для ссылки
         width: 1200,
         height: 630,
         alt: 'Таблица героев Deadlock',
       },
     ],
-    locale: 'ru_RU',
+    locale: 'en_GB',
     type: 'website',
   },
 
-  // Настройки для Twitter/X
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Персонажи Deadlock — Все герои',
-    description: 'Полная таблица персонажей игры Deadlock с актуальными характеристиками.',
-    images: ['https://deadlock-tracker.ru/og/heroes-table.png'],
-  },
+  //  Twitter/X
+  // twitter: {
+  //   card: 'summary_large_image',
+  //   title: 'Персонажи Deadlock — Все герои',
+  //   description: 'Полная таблица персонажей игры Deadlock с актуальными характеристиками.',
+  //   images: ['https://deadlock-tracker.ru/og/heroes-table.png'],
+  // },
 };
 
 export const saira = Funnel_Sans({
@@ -108,7 +108,7 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
   };
 
   return (
-    <div className="bg-[linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),url('/tweed.png')] px-6 py-6 shadow-lg shadow-gray-900">
+    <div className="bg-[linear-gradient(rgba(57,60,77,0.9),rgba(0,0,0,0.8))] px-6 py-6 shadow-lg shadow-gray-900">
       <h1 className={`${saira.className} text-[2.2rem] pl-8 py-4 font-bold`} >Tier List</h1>
       <table className="size-full w-full border-separate border-spacing-y-3 table-fixed pl-6">
         <thead className="">

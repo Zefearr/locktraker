@@ -102,17 +102,7 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
               <p className="font-thin text-[1.2rem] italic text-gray-400 uppercase ">" {hero?.playstyle} "</p>
 
             </div>}
-          <div className="flex gap-x-4">
-            <span className="flex flex-row  my-4 items-center gap-x-2"> <span className="text-[0.9rem]">Class: </span>
-              <span className="px-2  inline-block min-w-10 bg-[#224D31] text-gray-100 text-sm">{hero.hero_type} </span>
-            </span>
-            <span className="flex flex-row  my-4 items-center gap-x-2"> <span className="text-[0.9rem]">Base Health: </span>
-              <span className="px-2  inline-block min-w-10 bg-[#224D31] text-gray-100 text-sm">{hero.basehealth} </span>
-            </span>
-            <span className="flex flex-row  my-4 items-center gap-x-2"> <span className="text-[0.9rem]">Base Speed: </span>
-              <span className="px-2  inline-block min-w-10 bg-[#224D31] text-gray-100 text-sm">{hero.basespeed} </span>
-            </span>
-          </div>
+
 
           {hero?.lore && (
 
@@ -131,8 +121,22 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
 
           )}
 
+          <div className="flex flex-col md:flex-row items-center ">
+            <HeroAbilitiesCard abilities={hero.abilities} />
+            <div className="flex gap-x-4 flex-1">
 
-          <HeroAbilitiesCard abilities={hero.abilities} />
+              <span className="flex flex-row  my-4 items-center gap-x-2"> <span className="text-[0.9rem]">Base Health: </span>
+                <span className="px-2  inline-block min-w-10 bg-[#224D31] text-gray-100 text-sm">{hero.basehealth} </span>
+              </span>
+              <span className="flex flex-row  my-4 items-center gap-x-2"> <span className="text-[0.9rem]">Base Speed: </span>
+                <span className="px-2  inline-block min-w-10 bg-[#224D31] text-gray-100 text-sm">{hero.basespeed} </span>
+              </span>
+              <span className="flex flex-row  my-4 items-center gap-x-2"> <span className="text-[0.9rem]">Stamina: </span>
+                <span className="px-2  inline-block min-w-10 bg-[#224D31] text-gray-100 text-sm">{hero?.stamina} </span>
+              </span>
+            </div>
+          </div>
+
 
         </div>
 

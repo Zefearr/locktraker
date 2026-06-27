@@ -37,6 +37,7 @@ function processNestedData(rawData: any[]): Record<string, itemDesc[]> {
       item.cost > 0 &&
       item.item_tier !== 5 &&
       !item.name.includes('item_projectile') &&
+      !item.name.includes('Endless Magazine') &&
       !item.name.includes('Toughness') &&
       !item.name.includes('Bullet Armor') &&
       !item.name.includes('Spirit Armor') &&
@@ -71,7 +72,7 @@ export async function fetchAllItemsNested(): Promise<NestedGroupedItems | null> 
 
   try {
     const responses = await Promise.all(
-      slots.map(slot => fetch(`https://assets.deadlock-api.com/v2/items/by-slot-type/${slot}`))
+      slots.map(slot => fetch(`https://api.deadlock-api.com/v1/assets/items/by-slot-type/${slot}`))
     );
     const results = await Promise.all(responses.map(res => res.json()));
     const seenItemIds = new Set<string>();
@@ -82,15 +83,12 @@ export async function fetchAllItemsNested(): Promise<NestedGroupedItems | null> 
 
       Object.values(acc[slot]).forEach(tierArray => {
 
-
         const uniqueItems = tierArray.filter(item => {
-
           const itemId = item.itemName;
 
           if (seenItemIds.has(itemId)) {
             return false;
           }
-
           seenItemIds.add(itemId);
           return true;
         });
