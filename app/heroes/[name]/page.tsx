@@ -5,11 +5,49 @@ import BuildsList from '@/components/HeroBuilds';
 import { getBuildsById } from "@/services/buildService";
 import { fetchHeroes } from "@/services/heroService";
 import { fetchAllItemsNested, flattenItems } from "@/services/itemService";
-
+import { Metadata } from "next";
 
 interface PageProps {
   params: Promise<{ name: string, id: string }>;
   searchParams: Promise<{ limit?: string; sort?: string; order?: string }>;
+}
+
+
+interface Props {
+  params: Promise<{ name: string }>;
+}
+
+//metadata
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const resolvedParams = await params;
+
+  const hero = await getSingleHero(resolvedParams.name);
+
+
+  if (!hero) {
+    return {
+      title: 'No such hero | Deadlock Tracker',
+      description: 'This hero does not exist.',
+    };
+  }
+
+  return {
+    title: `${hero.name}`,
+    description: `${hero.name} detailed description abilities and other`,
+
+    openGraph: {
+      title: `${hero.name} — profile Deadlock Tracker`,
+      description: `all you need to know about ${hero.name}`,
+      images: [
+        {
+          url: `/public/lined_paper.png`,
+          width: 1200,
+          height: 630,
+          alt: `Deadlock Stats for ${hero.name}`,
+        },
+      ],
+    },
+  };
 }
 
 export default async function HeroDetailPage({ params, searchParams }: PageProps) {
@@ -38,7 +76,7 @@ export default async function HeroDetailPage({ params, searchParams }: PageProps
     ...hero,
     tier: heroFromList?.tier
   }
-  console.log(heroFromList);
+
   const itemsMap = flattenItems(nestedItems);
 
   return (

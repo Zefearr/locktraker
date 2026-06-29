@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+@tailwind utilities;
+
+@layer utilities {
+  .bg-table-hero {
+    background-image:
+      linear-gradient(rgba(32, 41, 54, 0.9), rgba(0, 0, 0, 0.8)),
+      url('/tableBG.png');
+    /* background-size: cover; */
+    /* background-position: center; */
+    background-repeat: repeat;
+  }
+}
+
 @theme {
   --color-deadlock-dark: #1C1C27;
   --color-deadlock-city: #121212;

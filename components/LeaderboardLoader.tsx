@@ -13,7 +13,7 @@ export default async function LeaderboardLoader({ currentHeroId, heroes }: Loade
     : await fetchGlobalLeaderBoard();
 
   if (!playersScores) {
-    return <div>Не удалось загрузить лидерборд</div>;
+    return <div>looks like api down</div>;
   }
 
   return (

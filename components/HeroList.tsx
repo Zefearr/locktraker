@@ -1,45 +1,12 @@
 'use client'
 import { tierWeights } from "@/services/heroService";
 import Link from "next/link";
-import Image from "next/image";
 import { CleanHero } from '@/services/heroService';
 import { useState, useMemo } from "react";
 import { ArrowIcon } from "@/components/ui/icons";
 import { Tier } from "@/services/heroService";
 import { Funnel_Sans } from "next/font/google";
-import { Metadata } from "next";
 
-
-export const metadata: Metadata = {
-  title: 'Персонажи Deadlock — Все герои, характеристики и тир-листы',
-  description: 'Полная таблица персонажей игры Deadlock. Базовые параметры, здоровье, урон, слоты и характеристики героев.',
-
-  // Open Graph (для отображения в соцсетях, Discord, Telegram)
-  openGraph: {
-    title: 'Таблица персонажей Deadlock | База данных',
-    description: 'Все герои Deadlock в одном месте. Сортировка по winrate, tier, kda',
-    url: 'https://locktraker.vercel.app/heroes',
-    siteName: 'Deadlock Tracker',
-    images: [
-      {
-        url: '', // превью-картинка для ссылки
-        width: 1200,
-        height: 630,
-        alt: 'Таблица героев Deadlock',
-      },
-    ],
-    locale: 'en_GB',
-    type: 'website',
-  },
-
-  //  Twitter/X
-  // twitter: {
-  //   card: 'summary_large_image',
-  //   title: 'Персонажи Deadlock — Все герои',
-  //   description: 'Полная таблица персонажей игры Deadlock с актуальными характеристиками.',
-  //   images: ['https://deadlock-tracker.ru/og/heroes-table.png'],
-  // },
-};
 
 export const saira = Funnel_Sans({
   weight: ['300', '400', '500', '600', '700'],
@@ -86,8 +53,8 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
 
   const getSortStyles = (key: keyof CleanHero) => {
     const base = `w-full h-full flex cursor-pointer `;
-    const activeStyle = `w-full h-full flex cursor-pointer group  bg-zinc-900  rounded-lg`;
-    const inactiveStyle = `hover:bg-zinc-900 rounded-lg w-full h-full flex cursor-pointer group`;
+    const activeStyle = `w-full h-full flex cursor-pointer group  bg-zinc-900 `;
+    const inactiveStyle = `hover:bg-zinc-900 w-full h-full flex cursor-pointer group`;
     return sortKey === key ? `${base} ${activeStyle}` : `${base} ${inactiveStyle}`;
   };
 
@@ -108,9 +75,9 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
   };
 
   return (
-    <div className="bg-[linear-gradient(rgba(57,60,77,0.9),rgba(0,0,0,0.8))] px-6 py-6 shadow-lg shadow-gray-900">
-      <h1 className={`${saira.className} text-[2.2rem] pl-8 py-4 font-bold`} >Tier List</h1>
-      <table className="size-full w-full border-separate border-spacing-y-3 table-fixed pl-6">
+    <div className="bg-table-hero  px-6 py-6 shadow-lg shadow-gray-900">
+      <h1 className={`${saira.className} text-[2.2rem] pl-4 py-4 font-bold`} >Hero tier List</h1>
+      <table className="size-full w-full  border-spacing-y-3 table-fixed pl-6 border-collapse">
         <thead className="">
           <tr className=" text-left text-xl">
             <th scope="col" className="" >
@@ -118,7 +85,7 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
                 type="button"
                 onClick={() => handleSort('name')}
                 className={`transition-all duration-200 ${getSortStyles('name')}`}>
-                <span className="px-4 py-4 rounded-2xl flex items-center">Hero</span>
+                <span className="px-2 py-4 flex items-center">Hero</span>
               </button>
             </th>
             <th className="hidden md:block" scope="col">
@@ -126,7 +93,7 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
                 <div className="w-full relative flex">
                   <select id="class-filter"
                     value={selectedClass}
-                    className="cursor-pointer appearance-none p-3 px-5 rounded-md border-zinc-800  focus:outline-none focus:bg-deadlock-dark"
+                    className="cursor-pointer appearance-none py-4 px-4  border-zinc-800  focus:outline-none focus:bg-deadlock-dark"
                     onChange={(e) => setSelectedClass(e.target.value)}>
                     <option value="All">All Classes</option>
                     <option value="assassin">Assasin</option>
@@ -190,12 +157,12 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
 
         <tbody className="text-lg">
           {sortedHeroes?.map((hero: any) => (
-            <tr key={hero.id} className="group odd:none relative">
+            <tr key={hero.id} className="group relative hover:bg-gray-600/20 even:bg-zinc-900/20">
               <th className="rouned-xs font-thin">
-                <Link href={`/heroes/${hero.name}`} className="flex absolute inset-0 items-center hover:opacity-50  text-amber-200
-                  before:content-[''] before:absolute before:-left-10 before:translate-y-[50%] before:top-0 before:w-2 before:h-7 before:opacity-0 
+                <Link href={`/heroes/${hero.name}`} className="flex absolute inset-0 items-center hover:text-amber-100  text-amber-200
+                  before:content-[''] before:absolute before:-left-10 before:scale-y-95 before:top-0 before:w-2 before:h-full before:opacity-0 
                  before:bg-amber-500 before:scale-x-100 before:transition-transform before:duration-300
-                  hover:before:scale-x-100 hover:before:translate-x-5 hover:before:opacity-100" >
+                  hover:before:scale-x-100 hover:before:translate-x-8 hover:before:opacity-100" >
                   <img src={hero.image} className="w-10 h-10" alt={hero.name} />
                   <span className="px-4">{hero.name}</span>
                 </Link>

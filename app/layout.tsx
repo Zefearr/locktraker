@@ -11,11 +11,7 @@ const figtree = Figtree({
   variable: '--font-figtree'
 });
 
-const roboto = Roboto({
-  weight: ['100', '200', '300', '400', '500'],
-  subsets: ['latin'],
-  variable: '--font-roboto'
-})
+
 export const saira = Saira_Stencil_One({
   weight: ['400'],
   subsets: ['latin'],
@@ -23,9 +19,20 @@ export const saira = Saira_Stencil_One({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://statdl.eu'),
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-US': '/en-US',
+    },
+  },
+  openGraph: {
+    images: '/lined_paper.png',
+  },
   title: "Deadlock tracker",
   description: "Tier list, builds, items, guides and lore"
 };
+
 
 export default function RootLayout({
   children,

@@ -4,16 +4,11 @@ export default function AbilityList({ abilities }: { abilities: any[] }) {
 
   return (
     <div className="flex-1 px-4">
-      {/* <h3 className="text-lg text-center">Abilities:</h3> */}
       <div className="flex flex-row gap-2">
         {abilities.map((ability, index) => {
           if (ability.name === "Melee") return null;
-
           return (
-
-
             <AbilityCard key={index} ability={ability} />
-
           )
         })}
       </div>
@@ -25,8 +20,7 @@ function AbilityCard({ ability }: { ability: any }) {
 
   return (
 
-    <div className="w-25 h-25 mt-10 group relative">
-
+    <div className="w-25 h-25 group relative">
       <div className="absolute left-0 top-0 w-full h-full border-2 border-[#0F0F16] rounded-[50%]"></div>
       <button
         className="w-25 h-25 overflow-hidden cursor-pointer relative border border-gray-700 hover:bg-gray-600 transition-colors rounded-[50%]"

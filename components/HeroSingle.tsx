@@ -98,10 +98,11 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
         </div>
         <div className="flex-4 items-center text-[1.2rem] text-gray-200 p-5 py-0 ">
           {hero?.playstyle &&
-            <div>
+            <div className="mb-3">
               <p className="font-thin text-[1.2rem] italic text-gray-400 uppercase ">" {hero?.playstyle} "</p>
 
-            </div>}
+            </div>
+          }
 
 
           {hero?.lore && (
@@ -109,7 +110,7 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
             <div className="relative">
 
               <p className="text-black relative text-[1.2rem] z-10 p-4 font-thin"> {hero.lore}</p>
-              <span className="bg-[url('/lined_paper.png')] border absolute inset-0 w-full z-1 h-full opacity-50
+              <span className="bg-[url('/lined_paperdark.png')] border absolute inset-0 w-full z-1 h-full opacity-50
             
                 mask-[url('/paper_masked6.png')]
                 [mask-size:100%_100%]
@@ -121,7 +122,7 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
 
           )}
 
-          <div className="flex flex-col md:flex-row items-center ">
+          <div className="flex flex-col md:flex-row items-center pt-8 ">
             <HeroAbilitiesCard abilities={hero.abilities} />
             <div className="flex gap-x-4 flex-1">
 

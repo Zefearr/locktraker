@@ -73,8 +73,6 @@ export async function fetchGlobalLeaderBoard(): Promise<PlayerScores[] | null> {
       }
     })
 
-
-
   } catch (e) {
     console.log(e)
   }

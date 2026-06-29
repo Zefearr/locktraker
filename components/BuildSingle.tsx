@@ -16,16 +16,12 @@ export interface AbilityUpgrade {
 export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, itemsMap: any }) {
 
   const [activeItemId, setActiveItemId] = useState<number | null>(null);
-
-
   const [tooltipData, setTooltipData] = useState<{
     name: string;
     description: string;
     annotation: string;
     cost?: number;
     upgrades: any;
-
-
 
   } | null>(null);
 
@@ -44,12 +40,15 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
   if (!buildInfo || !buildInfo.details) return null;
 
   return (
-    <div className="my-4  bg-amber-50 overflow-hidden  bg-[url('/lined_paperdark.png')] 
+    <div className="my-4  bg-amber-50 overflow-hidden  bg-[url('/lined_paperdark.png')]  
                  bg-absolute">
-      <h3 className=" p-4 relative flex items-center text-[1.7rem] bg-gray-700/95 text-gray-200 font-semibold ">
-        <span className="px-4">{buildInfo?.name}</span>
-        <span className="pl-12 text-[0.8rem] font-bold">{calculateTime(buildInfo.last_updated_timestamp)}</span>
-      </h3>
+      <div className=" p-4 relative  text-[1.7rem] bg-gray-700/95 text-gray-200 font-semibold ">
+        <div className="flex flex-col md:flex-row md:items-center">
+          <span className="px-4 text-amber-100">{buildInfo?.name}</span>
+          <span className="p-4 text-[0.9rem] font-bold">{calculateTime(buildInfo.last_updated_timestamp)}</span>
+        </div>
+        <span className="px-4 relative block text-[1rem] [text-shadow:_-1px_1px_1px_#000000]">{buildInfo?.description}</span>
+      </div>
 
       <div className="p-4 flex gap-4 flex-wrap ">
         {buildInfo.details.mod_categories?.map((category: any, index: number) => {
@@ -64,7 +63,7 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
           return (
             <div className="bg-[#6e6e6e] cursor-pointer relative" key={index}>
               {category && (
-                <div className="flex items-center bg-gray-900  ">
+                <div className="flex flex-col md:flex-row md:items-center bg-gray-900  ">
                   <span className="text-[1.5rem]  text-gray-100 p-4 py-2 ">{category.name || "Generally good items"}</span>
                   {category.description && (
                     <span className="text-[1rem]  text-gray-100 p-4 py-2  ">{category.description}</span>

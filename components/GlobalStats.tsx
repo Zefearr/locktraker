@@ -6,9 +6,6 @@ import archm from '@/img/archm.png';
 import hk from '@/img/hk.png';
 
 
-
-
-
 interface GlobalStatsListProps {
   initialStats: globStats[] | null;
 }
@@ -20,19 +17,17 @@ export default function GlobalStatsList({ initialStats }: GlobalStatsListProps) 
   }
   const stats = initialStats
 
-  if (stats === null) return <p>Ошибка загрузки статистики</p>;
-  if (stats.length === 0) return <p>Данные отсутствуют</p>;
+  if (stats === null) return <p>error</p>;
+  if (stats.length === 0) return <p>nothing found</p>;
 
   return (
     <div className="">
 
       {stats.map((s, i) => (
-        <div key={i} className="border-b  border-[#0F0F16] min-h-10 relative m-auto  py-4 flex  after:content:'' after:absolute after:w-full after:h-0.5 after:translate-y-1 after:blur-[0.5px] after:opacity-40 after:bottom-0 after:bg-[#323243]">
-
+        <div key={i} className="border-b  border-[#0F0F16] min-h-10 relative m-auto  py-4 flex  after:content:'' after:absolute after:w-full after:h-0.5 after:translate-y-1
+         after:blur-[0.5px] after:opacity-40 after:bottom-0 after:bg-[#323243]">
           <div className="flex m-auto items-end justify-around gap-8">
             <div>
-
-
               <div className="w-12">
                 <Image src={archm} width={256} height={256} alt="archmother" className="relative" />
                 <span className="text-[0.6rem]"> ArchMother</span>
@@ -56,8 +51,6 @@ export default function GlobalStatsList({ initialStats }: GlobalStatsListProps) 
               </div>
 
             </div>
-
-
 
           </div>
 

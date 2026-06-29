@@ -8,15 +8,22 @@ export interface HeroBuild {
   num_favorites: number;
   details?: any;
   hero_build: any;
+  heroId: number;
 }
 
 
 
-export async function getBuildsById(heroId: number, limit: number = 3, sortBy: string = 'recent', order: string = 'desc'): Promise<HeroBuild[] | null> {
+export async function getBuildsById(heroId: number | null, limit: number = 3, sortBy: string = 'recent', order: string = 'desc'): Promise<HeroBuild[] | null> {
 
   try {
+    let buildsApiurl;
+    if (heroId === null) {
+      buildsApiurl = `https://api.deadlock-api.com/v1/builds?only_latest=true`;
 
-    const buildsApiurl = `https://api.deadlock-api.com/v1/builds?hero_id=${heroId}`;
+    } else {
+      buildsApiurl = `https://api.deadlock-api.com/v1/builds?hero_id=${heroId}&only_latest=true`;
+
+    }
     const response = await fetch(buildsApiurl, {
       next: { revalidate: 3600 }
     });
@@ -64,11 +71,13 @@ export async function getBuildsById(heroId: number, limit: number = 3, sortBy: s
   return null;
 }
 
-export async function getAllBuilds(limit: number = 12, sortBy: string = 'recent', order: string = 'desc'): Promise<HeroBuild[] | null> {
+
+export async function getAllBuilds(limit: number = 12, sortBy: string = 'recent', order: string = 'desc', heroId: number | null = null): Promise<HeroBuild[] | null> {
 
   try {
+    const buildsApiurl = 'https://api.deadlock-api.com/v1/builds?only_latest=true';
 
-    const buildsApiurl = `https://api.deadlock-api.com/v1/builds?only_latest=true`;
+
 
     const response = await fetch(buildsApiurl, {
       next: { revalidate: 3600 }
@@ -78,8 +87,13 @@ export async function getAllBuilds(limit: number = 12, sortBy: string = 'recent'
 
     const buildsData: HeroBuild[] = await response.json();
 
+    const filteredBuilds = heroId
+      ? buildsData.filter(build => (build.hero_id === heroId || build.hero_build?.hero_id === heroId))
+      : buildsData;
+    console.log(filteredBuilds);
+
     const isDesc = order === 'desc';
-    const sortedBuildsData = buildsData.sort((a, b) => {
+    const sortedBuildsData = filteredBuilds.sort((a, b) => {
 
       if (sortBy === 'recent') {
         const timeA = a.hero_build?.last_updated_timestamp || 0;

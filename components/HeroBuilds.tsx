@@ -1,6 +1,6 @@
 'use client'
 import { HeroBuild } from "@/services/buildService";
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { DeadlockArrowIcon } from "./ui/icons";
 import { calculateTime } from "./helpers";
 import Link from "next/link";
@@ -12,31 +12,44 @@ interface BuildsListProps {
   currentLimit: number;
   currentSort?: string;
   currentOrder?: string;
+  currentHeroId?: number;
 }
 
-export default function BuildsList({ builds, itemsMap, currentLimit, currentSort, currentOrder }: BuildsListProps) {
+export default function BuildsList({ builds, itemsMap, currentLimit, currentSort, currentOrder, currentHeroId }: BuildsListProps) {
 
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const handleSortClick = (sortType: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+
     let nextOrder = 'desc';
-    let nextLimit = 3;
+    let nextLimit = currentLimit;
 
     if (currentSort === sortType) {
-
       nextOrder = currentOrder === 'desc' ? 'asc' : 'desc';
-      nextLimit = currentLimit;
     } else {
       nextOrder = 'desc';
-      nextLimit = currentLimit;
     }
-    router.push(`${pathname}?limit=${nextLimit}&sort=${sortType}&order=${nextOrder}`, { scroll: false });
+
+    params.set('limit', nextLimit.toString());
+    params.set('sort', sortType);
+    params.set('order', nextOrder);
+
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+
   };
 
   const handleLoadMore = () => {
+
     const nextLimit = currentLimit + 3;
-    router.push(`${pathname}?limit=${nextLimit}&sort=${currentSort}&order=${currentOrder}`, { scroll: false });
+    const params = new URLSearchParams(searchParams.toString());
+
+    params.set('limit', nextLimit.toString());
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+
   };
 
   return (
@@ -75,6 +88,7 @@ export default function BuildsList({ builds, itemsMap, currentLimit, currentSort
           />
         </button>
       </div>
+
       <div className="flex  flex-wrap gap-4 justify-between px-4 md:px-2 lg:px-0">
         {builds.map((build, index) => (
           <BuildCard key={index} build={build} itemsMap={itemsMap} />
@@ -115,7 +129,7 @@ export function BuildCard({ build, itemsMap }: { build: HeroBuild, itemsMap: any
 
   return (
 
-    <Link href={`/builds/${buildId}?t=${build.hero_build?.last_updated_timestamp}/${build.hero_build.name}`} className=" bg-amber-50 grow relative  w-100 overflow-hidden  bg-[url('/lined_paperdark.png')] bg-absolute hover:scale-[1.05] hover:shadow-md shadow-blue-200 transition-all cursor-pointer">
+    <Link href={`/builds/${buildId}?t=${build.hero_build?.last_updated_timestamp}/${encodeURIComponent(build.hero_build.name)}`} className=" bg-amber-50 grow relative  w-100 overflow-hidden  bg-[url('/lined_paperdark.png')] bg-absolute hover:scale-[1.05] hover:shadow-md shadow-blue-200 transition-all cursor-pointer">
 
       <div className="flex flex-row items-center bg-deadlock-dark ">
         <h3 className="flex-1 p-4 pl-6 relative block text-[1rem] text-gray-200 font-semibold whitespace-nowrap">

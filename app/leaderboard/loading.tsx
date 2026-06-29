@@ -13,7 +13,6 @@ export default function LoadingSpinner() {
           className="fill animate-counterSpinner"
         />
       </div>
-      <p className="font-bold text-2xl px-6 text-gray-100">Loading..</p>
     </div>
   );
 } 
