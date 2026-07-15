@@ -58,7 +58,7 @@ export function BuildCard({ build, itemsMap }: { build: HeroBuild, itemsMap: any
 
             return (
               <div className="bg-[#6e6e6e]" key={index}>
-                <img width={50} height={50} src={itemData?.image} alt={itemData?.itemName || "item"} />
+                <img className="w-8 h-8 md:w-12 md:h-12" width={50} height={50} src={itemData?.image} alt={itemData?.itemName || "item"} />
               </div>
             );
           })

@@ -26,8 +26,8 @@ const Navbar = () => {
     return `${baseStyle} ${pathname === path ? activeStyle : inactiveStyle}`;
   };
 
-  const OpenedMenu = `opacity-100`;
-  const ClosedMenu = `opacity-0 md:opacity-100`;
+  const OpenedMenu = `opacity-100 z-40`;
+  const ClosedMenu = `opacity-0 -z-100 md:opacity-100`;
 
   return (
     <div className="relative flex items-center justify-around mb-8">
@@ -52,7 +52,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      <ul className={`fixed shadow-sm shadow-mauve-500/20 top-0 z-40 md:relative flex flex-col md:flex-row
+      <ul className={`fixed shadow-sm shadow-mauve-500/20  top-0 md:relative flex flex-col md:flex-row
        items-center text-[1rem] py-4 gap-x-4 gap-y-6 md:gap-y-0 [&>li]:text-left [&>li]:block [&>li]:w-full
         md:[&>li]:inline-block md:[&>li]:w-auto bg-deadlock-city w-full justify-center
        uppercase tracking-wider md:bg-[url('/navbar_pattern5.webp')] bg-top-left bg-contain

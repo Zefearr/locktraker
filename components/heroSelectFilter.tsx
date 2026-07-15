@@ -27,7 +27,7 @@ export default function HeroSelectFilter({ heroes, currentHeroId }: { heroes: Cl
   };
 
   return (
-    <div className='flex flex-wrap items-center justify-center md:justify-start gap-2 mb-4'>
+    <div className='flex flex-wrap items-center justify-center md:justify-start gap-2 mb-4 mt-8 md:mt-0'>
       <button
         disabled={isPending}
         onClick={() => handleChange(0)}
