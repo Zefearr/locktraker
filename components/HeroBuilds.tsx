@@ -45,7 +45,7 @@ export function BuildCard({ build, itemsMap }: { build: HeroBuild, itemsMap: any
 
       </div>
 
-      <div className="p-4 flex gap-4 flex-wrap overflow-hidden">
+      <div className="p-4 flex gap-3 flex-wrap overflow-hidden">
 
         {buildInfo.details.mod_categories?.filter((category: any) => category.mods?.some((mod: any) => itemsMap[mod.ability_id]?.image))
 
