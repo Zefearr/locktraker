@@ -26,12 +26,12 @@ const Navbar = () => {
     return `${baseStyle} ${pathname === path ? activeStyle : inactiveStyle}`;
   };
 
-  const OpenedMenu = `opacity-100 z-40`;
-  const ClosedMenu = `opacity-0 -z-100 md:opacity-100`;
+  const OpenedMenu = `opacity-100 z-100`;
+  const ClosedMenu = `opacity-0 -z-100 md:z-100 md:opacity-100`;
 
   return (
     <div className="relative flex items-center justify-around mb-8">
-      <div className="fixed z-100 right-5 top-5 md:hidden ">
+      <div className="fixed z-101 right-5 top-5 md:hidden ">
         <button
           onClick={toggleMenu}
           className="relative z-50 flex h-8 w-8 flex-col items-center justify-center space-y-1.5 focus:outline-none"

@@ -51,7 +51,7 @@ async function leaderboardPage({ searchParams }: LeaderBoardHeroProps) {
   const currentHeroId = resolvedSearchParams.heroId ? Number(resolvedSearchParams.heroId) : null;
 
   return (
-    <div className="">
+    <div className="pt-2" >
       <HeroSelectFilter heroes={heroes} currentHeroId={currentHeroId ?? 0} />
       <h1 className="text-[1.5rem] text-gray-200 font-thin p-4">Europe Leaderboard</h1>
 
