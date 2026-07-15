@@ -1,8 +1,5 @@
-import { fetchLeaderBoard } from "@/services/playerService";
-import { PlayerScores } from "@/services/playerService";
 import { fetchHeroes } from "@/services/heroService";
 import HeroSelectFilter from "@/components/heroSelectFilter";
-import { fetchGlobalLeaderBoard } from "@/services/playerService";
 import { Suspense } from "react";
 import LoadingSpinner from "./loading";
 import LeaderboardLoader from "@/components/LeaderboardLoader";
@@ -14,12 +11,12 @@ export const metadata: Metadata = {
 
   openGraph: {
     title: 'Deadlock Europe Leaderboard',
-    description: 'The table of the best European deadlock players',
+    description: 'Player leaderboard',
     url: 'https://statdl.eu/leaderboard',
     siteName: 'Deadlock Europe Leaderboard',
     images: [
       {
-        url: 'https://statdl.eu/playerTable.png',
+        url: 'https://statdl.eu/leadersTable.webp',
         width: 1200,
         height: 630,
         alt: 'Deadlock Europe Leaderboard',
@@ -32,8 +29,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Deadlock Europe Leaderboard',
-    description: 'A complete table of Deadlock european players. ',
-    images: ['https://statdl.eu/playerTable.png'],
+    description: 'Player leaderboard ',
+    images: ['https://statdl.eu/leadersTable.webp'],
   },
 };
 
@@ -54,7 +51,7 @@ async function leaderboardPage({ searchParams }: LeaderBoardHeroProps) {
   const currentHeroId = resolvedSearchParams.heroId ? Number(resolvedSearchParams.heroId) : null;
 
   return (
-    <div>
+    <div className="">
       <HeroSelectFilter heroes={heroes} currentHeroId={currentHeroId ?? 0} />
       <h1 className="text-[1.5rem] text-gray-200 font-thin p-4">Europe Leaderboard</h1>
 
@@ -64,4 +61,4 @@ async function leaderboardPage({ searchParams }: LeaderBoardHeroProps) {
     </div>
   )
 }
-export default leaderboardPage;
+export default leaderboardPage; 

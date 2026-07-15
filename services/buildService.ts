@@ -1,6 +1,6 @@
 export interface HeroBuild {
 
-  hero_id: number;
+  // hero_id: number;
   hero_build_id: number;
   author_account_id: number;
   name: string;
@@ -8,7 +8,8 @@ export interface HeroBuild {
   num_favorites: number;
   details?: any;
   hero_build: any;
-  heroId: number;
+  heroId?: number;
+  publish_timestamp?: number;
 }
 
 
@@ -17,7 +18,7 @@ export async function getBuildsById(heroId: number | null, limit: number = 3, so
 
   try {
     let buildsApiurl;
-    if (heroId === null) {
+    if (!heroId || heroId === null || heroId === undefined) {
       buildsApiurl = `https://api.deadlock-api.com/v1/builds?only_latest=true`;
 
     } else {
@@ -72,48 +73,7 @@ export async function getBuildsById(heroId: number | null, limit: number = 3, so
 }
 
 
-export async function getAllBuilds(limit: number = 12, sortBy: string = 'recent', order: string = 'desc', heroId: number | null = null): Promise<HeroBuild[] | null> {
 
-  try {
-    const buildsApiurl = 'https://api.deadlock-api.com/v1/builds?only_latest=true';
-
-
-
-    const response = await fetch(buildsApiurl, {
-      next: { revalidate: 3600 }
-    });
-
-    if (!response.ok) return null;
-
-    const buildsData: HeroBuild[] = await response.json();
-
-    const filteredBuilds = heroId
-      ? buildsData.filter(build => (build.hero_id === heroId || build.hero_build?.hero_id === heroId))
-      : buildsData;
-    console.log(filteredBuilds);
-
-    const isDesc = order === 'desc';
-    const sortedBuildsData = filteredBuilds.sort((a, b) => {
-
-      if (sortBy === 'recent') {
-        const timeA = a.hero_build?.last_updated_timestamp || 0;
-        const timeB = b.hero_build?.last_updated_timestamp || 0;
-        return isDesc ? timeB - timeA : timeA - timeB;
-      }
-
-      const favA = a.num_favorites || 0;
-      const favB = b.num_favorites || 0;
-
-      return isDesc ? favB - favA : favA - favB;
-
-    })
-
-    return sortedBuildsData.slice(0, limit)
-  } catch (e) {
-    console.log(e);
-  }
-  return null;
-}
 
 export async function getBuildByBuildId(buildId: number): Promise<HeroBuild | null> {
   try {

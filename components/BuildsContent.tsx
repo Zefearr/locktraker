@@ -1,6 +1,6 @@
 import BuildsList from "@/components/HeroBuilds";
 import { getBuildsById } from "@/services/buildService";
-
+import LoadMoreButton from "./LoadMoreButton";
 
 export default async function BuildsContent({
   currentHeroId, currentLimit, currentSort, currentOrder, itemsMap
@@ -8,16 +8,19 @@ export default async function BuildsContent({
   currentHeroId: number | null, currentLimit: number, currentSort: string, currentOrder: string, itemsMap: any
 }) {
   const buildsData = await getBuildsById(currentHeroId, currentLimit, currentSort, currentOrder);
+  const builds = buildsData || [];
 
   return (
-    <BuildsList
-      builds={buildsData || []}
-      itemsMap={itemsMap}
-      currentLimit={currentLimit}
-      currentSort={currentSort}
-      currentOrder={currentOrder}
-      currentHeroId={currentHeroId ?? undefined}
-    />
+    <>
+      <BuildsList
+        builds={builds || []}
+        itemsMap={itemsMap}
+      />
+      <LoadMoreButton
+        currentLimit={currentLimit}
+        hasMore={builds.length === currentLimit}
+      />
+    </>
   );
 }
 

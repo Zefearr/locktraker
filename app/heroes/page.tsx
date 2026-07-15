@@ -3,6 +3,7 @@ import HeroList from '@/components/HeroList';
 
 
 export default async function HeroesPage() {
+
   const pulledHeroes = await fetchHeroes();
 
   if (!pulledHeroes) {
@@ -12,7 +13,6 @@ export default async function HeroesPage() {
   return (
     <main className="container mx-auto max-w-[1280px]">
       <HeroList heroes={pulledHeroes} />
-
     </main>
   );
 }

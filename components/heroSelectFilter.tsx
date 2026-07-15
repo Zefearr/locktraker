@@ -27,7 +27,7 @@ export default function HeroSelectFilter({ heroes, currentHeroId }: { heroes: Cl
   };
 
   return (
-    <div className='flex flex-wrap items-center gap-2 mb-4'>
+    <div className='flex flex-wrap items-center justify-center md:justify-start gap-2 mb-4'>
       <button
         disabled={isPending}
         onClick={() => handleChange(0)}
@@ -62,29 +62,5 @@ export default function HeroSelectFilter({ heroes, currentHeroId }: { heroes: Cl
         );
       })}
     </div>
-
-    // remove this later!
-
-    // <div className='flex items-center gap-x-5 mb-4'>
-    //   {currentHero?.image ? (
-    //     <img
-    //       className='w-8 h-8 block'
-    //       src={currentHero.image}
-    //       alt={currentHero.name}
-    //     />
-    //   ) : (
-    //     <span className='flex items-center w-8 h-8 border'><span className='m-auto text-[0.9rem] px-1'>All</span></span>
-    //   )}
-
-    //   <select className='py-1 px-2 border' value={currentHeroId} onChange={handleChange} disabled={isPending}>
-    //     <option value="0">Глобальный топ (Все герои)</option>
-    //     {heroes.map((hero) => (
-
-    //       <option key={hero.id} value={hero.id}>
-    //         {hero.name}
-    //       </option>
-    //     ))}
-    //   </select>
-    // </div>
   );
 }

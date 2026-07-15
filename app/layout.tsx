@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
-import { Roboto, Saira_Stencil_One, Figtree } from "next/font/google";
+import { Saira_Stencil_One, Figtree } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import SiteFooter from "@/components/SiteFooter";
+import CookieBanner from "@/components/CookieBanner";
+import { Analytics } from '@vercel/analytics/react';
 
 
 
@@ -29,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: '/lined_paper.png',
   },
-  title: "Deadlock tracker",
+  title: "Deadlock statistics",
   description: "Tier list, builds, items, guides and lore"
 };
 
@@ -45,15 +48,18 @@ export default function RootLayout({
       className="h-full
       antialiased"
     >
-      <body className={`${figtree.className} bg-[url('/bodybg.png')] bg-contain bg-no-repeat`}>
-        <div className="w-full max-w-7xl min-h-400 m-auto overflow-visible">
+      <body className={`${figtree.className} bg-[url('/bodybg.png')] bg-contain bg-fixed bg-no-repeat`}>
+        <Navbar />
+        <div className="w-full max-w-7xl m-auto overflow-visible">
 
-          <Navbar />
+
           {children}
+          <CookieBanner />
+          <Analytics />
 
         </div>
 
-
+        <SiteFooter />
       </body>
     </html>
   );

@@ -17,9 +17,9 @@ export default async function LeaderboardLoader({ currentHeroId, heroes }: Loade
   }
 
   return (
-    <div>
+    <>
       <PlayerList players={playersScores} heroes={heroes} />
-    </div>
+    </>
 
   )
 }

@@ -16,6 +16,8 @@ export interface AbilityUpgrade {
 export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, itemsMap: any }) {
 
   const [activeItemId, setActiveItemId] = useState<number | null>(null);
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
+
   const [tooltipData, setTooltipData] = useState<{
     name: string;
     description: string;
@@ -25,23 +27,50 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
 
   } | null>(null);
 
-  const { refs, floatingStyles } = useFloating({
+  const { refs } = useFloating({
+
     open: activeItemId !== null,
+    strategy: 'fixed',
     whileElementsMounted: autoUpdate,
     placement: 'top',
     middleware: [
-      offset(12),
+      offset(1),
       flip(),
-      shift({ padding: 2 }),
+      shift({ padding: 10 }),
     ],
+
   });
 
+
   const buildInfo = build.hero_build;
+
   if (!buildInfo || !buildInfo.details) return null;
 
+  const groupedCategories: any[] = [];
+
+  buildInfo.details.mod_categories?.forEach((category: any) => {
+    let catName = category.name || "Generally good items";
+
+    if (typeof catName === 'string') {
+      catName = catName.replace(/(.{3,20}?)\1+/g, '$1').trim();
+      if (!catName) catName = "Generally good items";
+    }
+
+    const existingCategory = groupedCategories.find(
+      (c) => c.name.toLowerCase() === catName.toLowerCase()
+    );
+
+    if (existingCategory) {
+
+      existingCategory.mods = [...(existingCategory.mods || []), ...(category.mods || [])];
+    } else {
+
+      groupedCategories.push({ ...category, name: catName });
+    }
+  });
+
   return (
-    <div className="my-4  bg-amber-50 overflow-hidden  bg-[url('/lined_paperdark.png')]  
-                 bg-absolute">
+    <div className="my-4  bg-amber-50 bg-[url('/lined_paperdark.png')] relative bg-absolute">
       <div className=" p-4 relative  text-[1.7rem] bg-gray-700/95 text-gray-200 font-semibold ">
         <div className="flex flex-col md:flex-row md:items-center">
           <span className="px-4 text-amber-100">{buildInfo?.name}</span>
@@ -51,11 +80,12 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
       </div>
 
       <div className="p-4 flex gap-4 flex-wrap ">
-        {buildInfo.details.mod_categories?.map((category: any, index: number) => {
-
+        {groupedCategories.map((category: any, index: number) => {
           const hasValidItems = category.mods?.some((mod: any) => {
             const itemData = itemsMap[mod.ability_id];
+
             return itemData && itemData.image;
+
           });
 
           if (!hasValidItems) return null;
@@ -72,35 +102,44 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
 
               )}
               <div className="flex p-4 flex-wrap">
-                {category.mods?.map((mod: any, idx: number) => {
+                {category.mods?.filter((mod: any, index: number, self: any[]) =>
+                  self.findIndex((m) => String(m.ability_id) === String(mod.ability_id)) === index
+                ).map((mod: any, idx: number) => {
                   const itemData = itemsMap[mod.ability_id];
+
                   if (!itemData?.image) return null;
 
                   const isMeActive = activeItemId === mod.ability_id;
                   return (
                     <div key={idx} ref={isMeActive ? refs.setReference : null}
-                      onMouseEnter={() => {
-                        const currentModInfo = itemData.upgrades[0];
+                      onMouseEnter={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        setCoords({
+                          x: rect.left,
+                          y: rect.top - 15,
+                        });
+
                         setActiveItemId(mod.ability_id);
+                        const currentModInfo = itemData.upgrades[0];
+
                         setTooltipData({
                           name: itemData.itemName || "Unknown Item",
-                          description: itemData.description || "No description available.",
+                          description: itemData.description || '',
                           annotation: mod.annotation || "",
                           cost: itemData.cost,
                           upgrades: currentModInfo?.property_upgrades || []
                         });
+
                       }}
-                      onMouseLeave={() => {
-                        setActiveItemId(null);
-                        setTooltipData(null);
-                      }}
+                      onMouseLeave={() => setActiveItemId(null)}
+
                       className="relative  rounded-sm w-20 h-30 my-2 flex items-center flex-col cursor-pointer bg-yellow-50 mr-2">
                       <div className="w-20 h-20 relative " >
                         {itemData?.image && (
                           <img
                             className=""
                             src={itemData?.image}
-                            alt="itemData?.itenName
+                            alt="itemData?.itemName
                             w-20
                             h-20" />
                         )
@@ -124,12 +163,17 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
         })}
       </div>
 
-
       {activeItemId !== null && tooltipData && (
+
         <div
-          ref={refs.setFloating}
-          style={floatingStyles}
-          className="w-100 bg-deadlock-city text-gray-200 text-xs p-4 rounded-sm shadow-2xl border
+
+          style={{
+            position: 'fixed',
+            left: 0,
+            top: 0,
+            transform: `translate3d(${coords.x}px, ${coords.y}px, 0)`,
+          }}
+          className="w-72 bg-deadlock-city text-gray-200 text-xs p-4 rounded-sm shadow-2xl border
            border-zinc-800 z-50 pointer-events-none wrap-break-word flex flex-col gap-2.5 animate-in fade-in duration-100"
         >
 
@@ -166,6 +210,7 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
                 «{tooltipData.annotation}»
               </p>
             </div>
+
           )}
         </div>
       )}

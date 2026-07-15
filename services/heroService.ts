@@ -171,10 +171,9 @@ export const formatVal = (val: any): string => {
 };
 
 
-
-export async function getSingleHero(name: string): Promise<SingleHero | null> {
+export async function getSingleHero(id: number): Promise<SingleHero | null> {
   try {
-    const url = `https://api.deadlock-api.com/v1/assets/heroes/by-name/${name}`;
+    const url = `https://api.deadlock-api.com/v1/assets/heroes/${id}`;
     const fetchHeroes = await fetch(url);
     if (!fetchHeroes.ok) return null;
 
@@ -223,7 +222,6 @@ export async function getSingleHero(name: string): Promise<SingleHero | null> {
     console.error("something wends wrong");
     return null;
   }
-
 
 
 }

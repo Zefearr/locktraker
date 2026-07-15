@@ -1,43 +1,37 @@
 import { getSingleHero } from "@/services/heroService";
-import { notFound } from "next/navigation";
 import HeroSingle from '@/components/HeroSingle';
-import BuildsList from '@/components/HeroBuilds';
-import { getBuildsById } from "@/services/buildService";
 import { fetchHeroes } from "@/services/heroService";
 import { fetchAllItemsNested, flattenItems } from "@/services/itemService";
 import { Metadata } from "next";
+import BuildsContent from "@/components/BuildsContent";
+import BuildFilters from "@/components/buildFilters";
 
 interface PageProps {
-  params: Promise<{ name: string, id: string }>;
-  searchParams: Promise<{ limit?: string; sort?: string; order?: string }>;
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ limit?: string; sort?: string; order?: string; }>;
 }
 
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
 
-interface Props {
-  params: Promise<{ name: string }>;
-}
-
-//metadata
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedParams = await params;
+  const currentHeroId = parseInt(resolvedParams.id.toString(), 10);
 
-  const hero = await getSingleHero(resolvedParams.name);
-
+  const hero = await getSingleHero(currentHeroId);
 
   if (!hero) {
     return {
-      title: 'No such hero | Deadlock Tracker',
+      title: 'No such hero | Deadlock Stats ',
       description: 'This hero does not exist.',
     };
   }
 
   return {
-    title: `${hero.name}`,
-    description: `${hero.name} detailed description abilities and other`,
+    title: `${hero.name}-profile `,
+    description: `${hero.name}'s lore, abilities and builds`,
 
     openGraph: {
-      title: `${hero.name} — profile Deadlock Tracker`,
-      description: `all you need to know about ${hero.name}`,
+      title: `${hero.name} — profile Deadlock Stats`,
+      description: `About ${hero.name} `,
       images: [
         {
           url: `/public/lined_paper.png`,
@@ -52,40 +46,51 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function HeroDetailPage({ params, searchParams }: PageProps) {
 
-  const { name } = await params;
-  const decodedName = decodeURIComponent(name);
+  const { id } = await params;
+  const currentHeroId = parseInt(id.toString(), 10);
+
+  if (!currentHeroId) return <div>Nothings here</div>;
 
   const resolvedSearchParams = await searchParams;
   const currentOrder = resolvedSearchParams.order || 'desc';
   const currentSort = resolvedSearchParams.sort || 'recent';
-  const currentLimit = Number(resolvedSearchParams.limit) || 3;
+  const currentLimit = Number(resolvedSearchParams.limit) || 6;
 
-  const hero = await getSingleHero(decodedName);
-  if (!hero) notFound();
-
-  const [allHeroesData, buildsData, nestedItems] = await Promise.all([
+  const [hero, allHeroesData, nestedItems] = await Promise.all([
+    getSingleHero(currentHeroId ?? 0),
     fetchHeroes(),
-    getBuildsById(hero.id, currentLimit, currentSort, currentOrder),
     fetchAllItemsNested()
   ])
 
-  if (!nestedItems) return null;
+  if (!nestedItems || !allHeroesData || !hero) return null;
 
-  const heroFromList = allHeroesData?.find(h => h.name.toLowerCase() === decodedName.toLowerCase());
+  const heroFromList = allHeroesData?.find(h => h.id === currentHeroId);
+
   const enrichedHero = {
     ...hero,
     tier: heroFromList?.tier
   }
 
   const itemsMap = flattenItems(nestedItems);
-
   return (
-    <div className="max-w-[1280px] m-auto">
+    <div className="max-w-[1280px] m-auto overflow-hidden">
       <HeroSingle hero={enrichedHero} />
-      <BuildsList builds={buildsData || []} itemsMap={itemsMap} currentLimit={currentLimit} currentSort={currentSort} currentOrder={currentOrder} />
+      <BuildFilters
+        currentLimit={currentLimit}
+        currentSort={currentSort}
+        currentOrder={currentOrder} />
+      <BuildsContent
+        currentHeroId={currentHeroId}
+        currentLimit={currentLimit}
+        currentSort={currentSort}
+        currentOrder={currentOrder}
+        itemsMap={itemsMap}
+      />
     </div>
   )
 }
+
+
 
 
 

@@ -1,7 +1,5 @@
 'use client'
 import { HeroBuild } from "@/services/buildService";
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-import { DeadlockArrowIcon } from "./ui/icons";
 import { calculateTime } from "./helpers";
 import Link from "next/link";
 import { truncateText } from "./helpers";
@@ -9,85 +7,13 @@ import { truncateText } from "./helpers";
 interface BuildsListProps {
   builds: HeroBuild[];
   itemsMap: Record<number, any>;
-  currentLimit: number;
-  currentSort?: string;
-  currentOrder?: string;
-  currentHeroId?: number;
 }
 
-export default function BuildsList({ builds, itemsMap, currentLimit, currentSort, currentOrder, currentHeroId }: BuildsListProps) {
+export default function BuildsList({ builds, itemsMap }: BuildsListProps) {
 
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const handleSortClick = (sortType: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    let nextOrder = 'desc';
-    let nextLimit = currentLimit;
-
-    if (currentSort === sortType) {
-      nextOrder = currentOrder === 'desc' ? 'asc' : 'desc';
-    } else {
-      nextOrder = 'desc';
-    }
-
-    params.set('limit', nextLimit.toString());
-    params.set('sort', sortType);
-    params.set('order', nextOrder);
-
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-
-  };
-
-  const handleLoadMore = () => {
-
-    const nextLimit = currentLimit + 3;
-    const params = new URLSearchParams(searchParams.toString());
-
-    params.set('limit', nextLimit.toString());
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-
-  };
 
   return (
-    <div className="my-12">
-
-      <div className="flex p-8 py-4 mb-4 border border-gray-800 shadow-emerald-800 ">
-        <h3 className="text-[1.5rem] uppercase font-bold mr-12">Builds</h3>
-
-        <button
-          onClick={() => handleSortClick('favorites')}
-          className={`px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded-sm transition-all cursor-pointer flex items-center gap-2 ${currentSort === 'favorites'
-            ? 'bg-amber-600 text-black font-black'
-            : 'text-zinc-400 hover:text-white bg-transparent'
-            }`}
-        >
-          <span> Popular</span>
-
-          <DeadlockArrowIcon
-            className={`w-2.5 h-2.5  transition-transform duration-200 ${currentOrder === 'asc' && currentSort === 'favorites' ? 'rotate-180' : 'rotate-0'
-              }`}
-          />
-
-        </button>
-        <button
-          onClick={() => handleSortClick('recent')}
-          className={`px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded-sm transition-all cursor-pointer flex items-center gap-2 ${currentSort === 'recent'
-            ? 'bg-amber-600 text-black font-black'
-            : 'text-zinc-400 hover:text-white bg-transparent'
-            }`}
-        >
-          <span> Recent</span>
-
-          <DeadlockArrowIcon
-            className={`w-2.5  h-2.5  transition-transform duration-200 ${currentOrder === 'asc' && currentSort === 'recent' ? 'rotate-180' : 'rotate-0'
-              }`}
-          />
-        </button>
-      </div>
+    <div className="pb-6">
 
       <div className="flex  flex-wrap gap-4 justify-between px-4 md:px-2 lg:px-0">
         {builds.map((build, index) => (
@@ -96,26 +22,6 @@ export default function BuildsList({ builds, itemsMap, currentLimit, currentSort
 
       </div>
 
-      {builds.length === currentLimit && (
-        <div className="flex justify-center mt-4">
-          <button
-            onClick={handleLoadMore}
-            className="px-6 py-2 bg-emerald-900 text-white
-             font-bold
-              rounded-sm
-               border
-                border-emerald-500
-                 hover:bg-emerald-500
-                  transition-colors
-                   cursor-pointer
-                    text-sm
-                     uppercase
-                      tracking-wider"
-          >
-            Load More
-          </button>
-        </div>
-      )}
     </div>
   );
 }
@@ -136,7 +42,6 @@ export function BuildCard({ build, itemsMap }: { build: HeroBuild, itemsMap: any
           {truncateText(buildInfo?.name, 20)}
         </h3>
         <span className="block flex-1 pl-12 text-[0.6rem] font-bold whitespace-nowrap">{calculateTime(buildInfo?.last_updated_timestamp)}</span>
-        {/* <span className="block flex-2 pl-12 text-[0.6rem] font-bold whitespace-nowrap">{buildInfo?.author_account_id} </span> */}
 
       </div>
 

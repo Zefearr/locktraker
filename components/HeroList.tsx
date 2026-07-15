@@ -77,7 +77,7 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
   return (
     <div className="bg-table-hero  px-6 py-6 shadow-lg shadow-gray-900">
       <h1 className={`${saira.className} text-[2.2rem] pl-4 py-4 font-bold`} >Hero tier List</h1>
-      <table className="size-full w-full  border-spacing-y-3 table-fixed pl-6 border-collapse">
+      <table className="size-full w-full table-auto  md:table-fixed  border-spacing-y-3 pl-6 border-collapse">
         <thead className="">
           <tr className=" text-left text-xl">
             <th scope="col" className="" >
@@ -88,7 +88,7 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
                 <span className="px-2 py-4 flex items-center">Hero</span>
               </button>
             </th>
-            <th className="hidden md:block" scope="col">
+            <th className="hidden md:table-cell" scope="col">
               <form className="" onSubmit={(e) => e.preventDefault()}>
                 <div className="w-full relative flex">
                   <select id="class-filter"
@@ -112,7 +112,7 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
                 </div>
               </form>
             </th>
-            <th scope="col">
+            <th scope="col" className="hidden md:table-cell">
               <button
                 type="button"
                 onClick={() => handleSort('winrate')}
@@ -139,11 +139,11 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
 
               </button>
             </th>
-            <th scope="col">
+            <th scope="col" className="hidden md:table-cell">
               <button
                 type="button"
                 onClick={() => handleSort('kda')}
-                className={`transition-all duration-200 ${getSortStyles('kda')}`}>
+                className={`transition-all duration-200   ${getSortStyles('kda')}`}>
                 <span className="p-4">KDAA</span>
                 <ArrowIcon
                   className={`w-4 h-4 mt-4 transition-transform duration-300 
@@ -158,8 +158,8 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
         <tbody className="text-lg">
           {sortedHeroes?.map((hero: any) => (
             <tr key={hero.id} className="group relative hover:bg-gray-600/20 even:bg-zinc-900/20">
-              <th className="rouned-xs font-thin">
-                <Link href={`/heroes/${hero.name}`} className="flex absolute inset-0 items-center hover:text-amber-100  text-amber-200
+              <th className="rouned-xs font-thin relative min-w-[150px] md:w-full">
+                <Link href={`/heroes/${hero.id}-${hero.name.toLowerCase()}`} className="flex items-center md:absolute md:inset-0 md:w-full hover:text-amber-100  text-amber-200
                   before:content-[''] before:absolute before:-left-10 before:scale-y-95 before:top-0 before:w-2 before:h-full before:opacity-0 
                  before:bg-amber-500 before:scale-x-100 before:transition-transform before:duration-300
                   hover:before:scale-x-100 hover:before:translate-x-8 hover:before:opacity-100" >
@@ -168,16 +168,16 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
                 </Link>
 
               </th>
-              <td className="p-4">
+              <td className="p-4 hidden md:table-cell">
                 {hero.class}
               </td>
-              <td className="p-4">
+              <td className="p-4 hidden md:table-cell">
                 {hero.winrate}%
               </td>
               <td className="p-4">
                 <span className={getTierStyle(hero.tier)}>{hero.tier}</span>
               </td>
-              <td className="p-4">
+              <td className="p-4 hidden md:table-cell">
                 <span>{hero.kda}</span>
               </td>
 
