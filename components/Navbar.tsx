@@ -55,7 +55,7 @@ const Navbar = () => {
       <ul className={`fixed shadow-sm shadow-mauve-500/20  top-0 md:relative flex flex-col md:flex-row
        items-center text-[1rem] py-4 gap-x-4 gap-y-6 md:gap-y-0 [&>li]:text-left [&>li]:block [&>li]:w-full
         md:[&>li]:inline-block md:[&>li]:w-auto bg-deadlock-city w-full justify-center
-       uppercase tracking-wider md:bg-[url('/navbar_pattern5.webp')] bg-top-left bg-contain
+       uppercase tracking-wider md:bg-[url('/navbar_pattern5.webp')] bg-navbar bg-top-left bg-contain
         ${isOpen ? OpenedMenu : ClosedMenu}`}>
         <li className="text-center block w-full px-6  ">
           <Link href="/" className="">

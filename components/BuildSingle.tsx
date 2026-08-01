@@ -72,9 +72,9 @@ export default function BuildSingle({ build, itemsMap }: { build: HeroBuild, ite
   return (
     <div className="my-4  bg-amber-50 bg-[url('/lined_paperdark.png')] relative bg-absolute">
       <div className=" p-4 relative  text-[1.7rem] bg-gray-700/95 text-gray-200 font-semibold ">
-        <div className="flex flex-col md:flex-row md:items-center">
+        <div className="flex flex-col md:flex-row md:items-center justify-between">
           <span className="px-4 text-amber-100">{buildInfo?.name}</span>
-          <span className="p-4 text-[0.9rem] font-bold">{calculateTime(buildInfo.last_updated_timestamp)}</span>
+          <span className="p-4 text-[0.9rem] font-semibold text-gray-300">{calculateTime(buildInfo.last_updated_timestamp)}</span>
         </div>
         <span className="px-4 relative block text-[1rem] [text-shadow:_-1px_1px_1px_#000000]">{buildInfo?.description}</span>
       </div>

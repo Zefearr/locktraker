@@ -37,11 +37,11 @@ export function BuildCard({ build, itemsMap }: { build: HeroBuild, itemsMap: any
 
     <Link href={`/builds/${buildId}?t=${build.hero_build?.last_updated_timestamp}/${encodeURIComponent(build.hero_build.name)}`} className=" bg-amber-50 grow relative  w-100 overflow-hidden  bg-[url('/lined_paperdark.png')] bg-absolute hover:scale-[1.05] hover:shadow-md shadow-blue-200 transition-all cursor-pointer">
 
-      <div className="flex flex-row items-center bg-deadlock-dark ">
-        <h3 className="flex-1 p-4 pl-6 relative block text-[1rem] text-gray-200 font-semibold whitespace-nowrap">
+      <div className="flex flex-row items-center justify-between bg-deadlock-dark p-4">
+        <h3 className="relative block text-[1rem] text-gray-300 font-semibold whitespace-nowrap">
           {truncateText(buildInfo?.name, 20)}
         </h3>
-        <span className="block flex-1 pl-12 text-[0.6rem] font-bold whitespace-nowrap">{calculateTime(buildInfo?.last_updated_timestamp)}</span>
+        <div className="block pl-12 text-[0.6rem] font-bold whitespace-nowrap">{calculateTime(buildInfo?.last_updated_timestamp)}</div>
 
       </div>
 

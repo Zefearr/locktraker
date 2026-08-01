@@ -6,6 +6,9 @@ import { useState, useMemo } from "react";
 import { ArrowIcon } from "@/components/ui/icons";
 import { Tier } from "@/services/heroService";
 import { Funnel_Sans } from "next/font/google";
+import Image from "next/image";
+import sova from '@/public/sova.webp'
+import tableTop from '@/public/tableTop.webp'
 
 
 export const saira = Funnel_Sans({
@@ -75,8 +78,15 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
   };
 
   return (
-    <div className="bg-table-hero  px-6 py-6 shadow-lg shadow-gray-900">
-      <h1 className={`${saira.className} text-[2.2rem] pl-4 py-4 font-bold`} >Hero tier List</h1>
+    <div className="bg-table-hero px-6 py-6 shadow-lg shadow-gray-900 frame-stone relative mt-20
+    ">
+      <div className="absolute w-full h-4 -top-3 scale-x-102 left-0">
+        <Image src={tableTop} fill alt="a" className="" priority={true} placeholder="empty" />
+      </div>
+      <div className="absolute w-6 h-14 -top-17 left-[50%] -translate-x-[50%]">
+        <Image src={sova} alt="wardkeeper" fill className="object-cover" priority={true} placeholder="empty" />
+      </div>
+      <h1 className={`${saira.className} text-[2.2rem] pl-2 py-4 font-bold`} >Hero tier List</h1>
       <table className="size-full w-full table-auto  md:table-fixed  border-spacing-y-3 pl-6 border-collapse">
         <thead className="">
           <tr className=" text-left text-xl">
@@ -85,7 +95,7 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
                 type="button"
                 onClick={() => handleSort('name')}
                 className={`transition-all duration-200 ${getSortStyles('name')}`}>
-                <span className="px-2 py-4 flex items-center">Hero</span>
+                <span className="px-4 py-4 flex items-center">Hero</span>
               </button>
             </th>
             <th className="hidden md:table-cell" scope="col">
