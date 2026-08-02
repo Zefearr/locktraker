@@ -81,10 +81,12 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
     <div className="bg-table-hero px-6 py-6 shadow-lg shadow-gray-900 frame-stone relative mt-20
     ">
       <div className="absolute w-full h-4 -top-3 scale-x-102 left-0">
-        <Image src={tableTop} fill alt="a" className="" priority={true} placeholder="empty" />
+        <Image src={tableTop} fill alt="a" className="" sizes="(max-width: 768px) 100vw, 50vw"
+          priority={true} placeholder="empty" />
       </div>
       <div className="absolute w-6 h-14 -top-17 left-[50%] -translate-x-[50%]">
-        <Image src={sova} alt="wardkeeper" fill className="object-cover" priority={true} placeholder="empty" />
+        <Image src={sova} sizes="(max-width: 768px) 100vw, 50vw"
+          alt="wardkeeper" fill className="object-cover" priority={true} placeholder="empty" />
       </div>
       <h1 className={`${saira.className} text-[2.2rem] pl-2 py-4 font-bold`} >Hero tier List</h1>
       <table className="size-full w-full table-auto  md:table-fixed  border-spacing-y-3 pl-6 border-collapse">
