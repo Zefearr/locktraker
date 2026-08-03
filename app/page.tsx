@@ -1,5 +1,4 @@
-import GlobalStatsList from "@/components/GlobalStats";
-import { fetchGlobalStats } from "@/services/globalStatsService";
+
 import { fetchHeroes } from '@/services/heroService';
 import HeroList from '@/components/HeroList';
 import { Metadata } from "next";
@@ -15,7 +14,7 @@ export const metadata: Metadata = {
     siteName: 'Deadlock statistics',
     images: [
       {
-        url: '',
+        url: 'https://statdl.eu/herotable.webp',
         width: 1200,
         height: 630,
         alt: 'Deadlock Character Sheet',

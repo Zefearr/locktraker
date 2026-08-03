@@ -10,9 +10,15 @@ export default async function AboutPage() {
   return (
     <div className="relative min-h-[800px] p-6 overflow-hidden">
 
-      <div className="flex flex-col md:flex-row items-center gap-x-4 w-full mt-2 relative">
-        <Image alt="Chibi Paige" src={page} width={50} />
-        <p className="text-[1rem] relative text-shadow-xs text-shadow-gray-900 mb-4 text-gray-300 tracking-wider font-thin"><span className="font-semibold text-[2rem] tracking-wider text-amber-200 text-shadow-xs text-shadow-amber-100  pr-2 uppercase">Disclaimer:</span> This website is an independent community fan project.
+      <div className="flex flex-col gap-y-4 items-center gap-x-4 w-full mt-2 relative">
+        <span className="font-semibold text-[2rem] tracking-wider text-amber-200 text-shadow-xs text-shadow-amber-100  pr-2 uppercase flex flex-col items-center">
+          <Image alt="Chibi Paige" src={page} width={50} />
+          Disclaimer
+        </span>
+
+        <p className="text-[1rem] relative text-shadow-xs text-shadow-gray-900 mb-4 text-gray-300 tracking-wider font-thin">
+
+          This website is an independent community fan project.
           It is not affiliated with, authorized, endorsed, or sponsored by Valve Corporation.
           Deadlock, the Deadlock logo, Valve, and the Valve logo are trademarks or registered trademarks of Valve Corporation.
           All in-game assets, imagery, and lore references belong to their respective owners.

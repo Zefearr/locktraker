@@ -175,7 +175,11 @@ export default function HeroList({ heroes }: { heroes: CleanHero[] }) {
                   before:content-[''] before:absolute before:-left-10 before:scale-y-95 before:top-0 before:w-2 before:h-full before:opacity-0 
                  before:bg-amber-500 before:scale-x-100 before:transition-transform before:duration-300
                   hover:before:scale-x-100 hover:before:translate-x-8 hover:before:opacity-100" >
-                  <img src={hero.image} className="w-10 h-10" alt={hero.name} />
+                  <span className="relative w-10 h-10">
+                    <Image fill
+                      src={hero.image} className="object-cover" sizes="40px" alt={hero.name} />
+
+                  </span>
                   <span className="px-4">{hero.name}</span>
                 </Link>
 

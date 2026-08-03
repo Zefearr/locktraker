@@ -7,7 +7,7 @@
     background-image:
       /* linear-gradient(rgba(24, 29, 41, 0.9), rgba(0, 0, 0, 0.8)), */
       linear-gradient(rgba(25, 27, 33, 0.5), rgba(0, 0, 0, 0.8)),
-      url('/tableBG.png');
+      url('/tableBG.webp');
     /* background-size: cover; */
     /* background-position: center; */
     background-repeat: repeat;
@@ -17,7 +17,7 @@
     background-image:
       /* linear-gradient(rgba(24, 29, 41, 0.9), rgba(0, 0, 0, 0.8)), */
       linear-gradient(rgba(16, 20, 34, 0.5), rgba(11, 12, 12, 0.8)),
-      url('/tableBG.png');
+      url('/tableBG.webp');
     /* background-size: cover; */
     /* background-position: center; */
     background-repeat: repeat;
@@ -27,7 +27,7 @@
 @utility frame-stone {
   border-width: 10px;
   border-style: solid;
-  border-image-source: url('/tableVertical.png');
+  border-image-source: url('/tableVertical.webp');
   border-image-slice: 2;
 
 

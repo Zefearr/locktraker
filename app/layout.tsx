@@ -48,15 +48,15 @@ export default function RootLayout({
       className="h-full
       antialiased"
     >
-      <body className={`${figtree.className} bg-[url('/bodybg.png')] bg-contain bg-fixed bg-no-repeat relative`}>
+      <body className={`${figtree.className} relative min-h-screen flex flex-col`}>
         <Navbar />
-        {/* <div className="bg-[url('/mainBg2.webp')] w-full h-48 fixed top-0 -z-10"></div> */}
-        <div className="w-full max-w-7xl m-auto overflow-visible">
+        <div className="bg-[url('/mainBg2.webp')] w-full h-78 fixed top-0 -z-10"></div>
+        <main className="w-full max-w-7xl mx-auto overflow-visible flex-1">
           {children}
           <CookieBanner />
           <Analytics />
 
-        </div>
+        </main>
 
         <SiteFooter />
       </body>

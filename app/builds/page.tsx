@@ -62,7 +62,7 @@ export default async function Builds({ searchParams }: PageProps) {
   const itemsMap = flattenItems(nestedItems);
 
   return (
-    <div className="pb-6 px-4 overflow-hidden ">
+    <div className="pb-6 px-4 overflow-hidden min-h-screen ">
 
 
       <HeroSelectFilter heroes={heroes} currentHeroId={currentHeroId ?? 0} />

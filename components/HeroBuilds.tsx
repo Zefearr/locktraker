@@ -3,6 +3,7 @@ import { HeroBuild } from "@/services/buildService";
 import { calculateTime } from "./helpers";
 import Link from "next/link";
 import { truncateText } from "./helpers";
+import Image from "next/image";
 
 interface BuildsListProps {
   builds: HeroBuild[];
@@ -57,8 +58,8 @@ export function BuildCard({ build, itemsMap }: { build: HeroBuild, itemsMap: any
             const itemData = itemsMap[firstValidMod.ability_id];
 
             return (
-              <div className="bg-[#6e6e6e]" key={index}>
-                <img className="w-8 h-8 md:w-12 md:h-12" width={50} height={50} src={itemData?.image} alt={itemData?.itemName || "item"} />
+              <div className="bg-[#6e6e6e] relative" key={index}>
+                <Image className="w-8 h-8 md:w-12 md:h-12" width={50} height={50} src={itemData?.image} alt={itemData?.itemName || "item"} />
               </div>
             );
           })

@@ -5,6 +5,7 @@ import { fetchAllItemsNested, flattenItems } from "@/services/itemService";
 import { Metadata } from "next";
 import BuildsContent from "@/components/BuildsContent";
 import BuildFilters from "@/components/buildFilters";
+import { Suspense } from "react";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -71,10 +72,15 @@ export default async function HeroDetailPage({ params, searchParams }: PageProps
     tier: heroFromList?.tier
   }
 
+  const suspenseKey = `${heroFromList?.name}`
+
+
   const itemsMap = flattenItems(nestedItems);
   return (
     <div className="max-w-[1280px] m-auto overflow-hidden">
-      <HeroSingle hero={enrichedHero} />
+      <Suspense key={suspenseKey} fallback={<div className="min-h-screen">Loading</div>} >
+        <HeroSingle hero={enrichedHero} />
+      </Suspense>
       <BuildFilters
         currentLimit={currentLimit}
         currentSort={currentSort}
