@@ -54,9 +54,9 @@ export default function CookieBanner() {
   }
 
 
-  if (consent === true) {
-    return <GoogleAnalytics gaId="G-M2RKKGNB7T" />;
-  }
+  // if (consent === true) {
+  return <GoogleAnalytics gaId="G-M2RKKGNB7T" />;
+  // }
 
 
   return null;

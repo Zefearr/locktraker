@@ -29,7 +29,7 @@ export default function GlobalStatsList({ initialStats }: GlobalStatsListProps) 
           <div className="flex m-auto items-end justify-around gap-8">
             <div>
               <div className="w-12">
-                <Image src={archm} width={256} height={256} alt="archmother" className="relative" />
+                <Image src={archm} width={256} height={256} alt="archmother" className="relative" unoptimized />
                 <span className="text-[0.6rem]"> ArchMother</span>
 
               </div>
@@ -45,7 +45,7 @@ export default function GlobalStatsList({ initialStats }: GlobalStatsListProps) 
             </div>
             <div>
               <div className="w-12">
-                <Image width={256} height={256} src={hk} alt="hk" className="relative scale-110 -translate-y-1" />
+                <Image width={256} height={256} src={hk} alt="hk" className="relative scale-110 -translate-y-1" unoptimized />
                 <span className="text-[0.6rem] z-10 ">  HiddenKing</span>
 
               </div>

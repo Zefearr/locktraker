@@ -92,4 +92,4 @@ export default function PlayerList({ players, heroes }: PlayerListProps) {
       </div>
     </>
   )
-}
+} 

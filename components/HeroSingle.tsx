@@ -53,6 +53,7 @@ export default function HeroSingle({ hero }: { hero: SingleHero }) {
         <div className="flex flex-1 flex-col  overflow-hidden">
           <div className="relative overflow-hidden ">
             <Image
+              unoptimized
               loading="eager"
               src={hero?.image || ""}
               alt={hero?.name || ""}

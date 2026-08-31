@@ -12,7 +12,7 @@ export default async function AboutPage() {
 
       <div className="flex flex-col gap-y-4 items-center gap-x-4 w-full mt-2 relative">
         <span className="font-semibold text-[2rem] tracking-wider text-amber-200 text-shadow-xs text-shadow-amber-100  pr-2 uppercase flex flex-col items-center">
-          <Image alt="Chibi Paige" src={page} width={50} />
+          <Image alt="Chibi Paige" src={page} width={50} unoptimized />
           Disclaimer
         </span>
 
@@ -27,7 +27,7 @@ export default async function AboutPage() {
       </div>
 
       <p className="text-gray-300 text-lg mb-4">API Data provided by <Link className="text-orange-800" href={'https://deadlock-api.com/'}>deadlock-api.com/</Link> </p>
-      <p className=" text-gray-300 "><span className="font-bold">Deadlock</span> currently has no official release date. For more information, check out the <Link className="font-bold text-gray-200" href={'https://store.steampowered.com/app/1422450/Deadlock/'}>Deadlock Steam page</Link>.
+      <p className=" text-gray-300 "><span className="font-bold">Deadlock</span> currently has no official release date. For more information, check out the Deadlock Steam page
 
       </p>
 

@@ -60,7 +60,7 @@ export default function Item({ item }: { item: itemDesc }) {
         setTooltipData(null);
       }}
       key={item.id} className="w-25   bg-amber-100 rounded-[0.4rem] border-amber-100 relative rounded-1xl  cursor-pointer">
-      <Image alt={`${item.itemName} name`} src={item.image} width={100} height={100} className="opacity-80 cursor-pointer h-auto w-25  -z-10" />
+      <Image unoptimized alt={`${item.itemName} name`} src={item.image} width={100} height={100} className="opacity-80 cursor-pointer h-auto w-25  -z-10" />
       <div className="bottom-0 left-0 w-full min-h-15 flex items-center bg-amber-100 ">
 
         <span className={fontClass}>{item?.itemName} </span>
