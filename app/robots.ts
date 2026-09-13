@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/'
     },
-    sitemap: 'https://statdl.eu/sitemap.xml',
+    sitemap: 'https://statdl.eu/sitemap-v2.xml',
   };
 }

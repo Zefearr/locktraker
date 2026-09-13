@@ -1,19 +1,17 @@
 import { MetadataRoute } from 'next';
-// Импортируй свои функции получения данных
 import { fetchHeroes } from '@/services/heroService';
 import { getBuildsById } from '@/services/buildService';
+
+export const revalidate = 86400;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const baseUrl = 'https://statdl.eu';
 
-
   const staticPages = [
-
     { url: baseUrl, lastModified: new Date() },
     { url: `${baseUrl}/builds`, lastModified: new Date() },
   ];
-
 
   // heroes
   const heroes = await fetchHeroes() || [];
@@ -27,9 +25,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .trim()
       .replace(/\s+/g, '-');
 
-
-
-    // const rawUrl = `${baseUrl}/heroes/${hero.id}-${hero.name.toLowerCase()}`;
     const rawUrl = `${baseUrl}/heroes/${hero.id}-${safeHeroName}`;
 
     return {
@@ -55,6 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         .replace(/[\/\\?%#\[\]!'`()&]/g, '') // добавили скобки ( )
         .trim()
         .replace(/\s+/g, ' ');
+
       // 2. Кодируем имя (пробелы превратятся в %20)
       const encodedName = encodeURIComponent(cleanName);
 
@@ -73,16 +69,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: isNaN(parsedDate.getTime()) ? new Date() : parsedDate,
       };
 
-
-      // return {
-      //   url: rawUrl,
-      //   lastModified: build?.hero_build?.publish_timestamp ? new Date(build?.hero_build?.publish_timestamp) : new Date(),
-      // };
-
-      return {
-        url: rawUrl,
-        lastModified: isNaN(parsedDate.getTime()) ? new Date() : parsedDate,
-      }
     })
     .filter((page): page is { url: string; lastModified: Date } => page !== null);
 
