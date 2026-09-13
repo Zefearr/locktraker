@@ -39,7 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   // builds
-  const allBuilds = await getBuildsById(null, 2000) || [];
+  const allBuilds = await getBuildsById(null, 100) || [];
 
 
   const buildPages = allBuilds
